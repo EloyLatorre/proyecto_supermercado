@@ -8,7 +8,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
-import com.hibernate.model.Producto;
+
+import com.hibernate.model.*;
 
 public class HibernateUtil {
 	private static SessionFactory sessionFactory;
@@ -19,7 +20,7 @@ public class HibernateUtil {
 
 				Properties settings = new Properties();
 				settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-				settings.put(Environment.URL, "jdbc:mysql://192.168.86.25:3306/supermercado?useSSL=false");
+				settings.put(Environment.URL, "jdbc:mysql://127.0.0.1:3306/almacen?useSSL=false");
 				settings.put(Environment.USER, "alumno");
 				settings.put(Environment.PASS, "alumno");
 				settings.put(Environment.SHOW_SQL, "true");
@@ -29,8 +30,9 @@ public class HibernateUtil {
 				configuration.setProperties(settings);
 
 
-				configuration.addAnnotatedClass(Producto.class);
-
+				configuration.addAnnotatedClass(Productos.class);
+				configuration.addAnnotatedClass(Categorias.class);
+				configuration.addAnnotatedClass(Ofertas.class);
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
 				sessionFactory = configuration.buildSessionFactory(serviceRegistry);
