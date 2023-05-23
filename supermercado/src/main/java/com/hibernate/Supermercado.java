@@ -5,8 +5,6 @@ import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.util.List;
 import java.awt.Color;
-import java.awt.Desktop;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -15,65 +13,27 @@ import javax.swing.JTable;
 import java.awt.Font;
 //import com.hibernate.Gimnasio;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-
 import javax.swing.JComboBox;
 import javax.swing.JButton;
-import javax.swing.BorderFactory;
-import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import com.hibernate.dao.AlmacenDAO;
 import com.hibernate.model.*;
-import com.hibernate.util.HibernateUtil;
-
-import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
-
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.List;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import java.util.ArrayList;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.TableModel;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
 import java.util.Date;
