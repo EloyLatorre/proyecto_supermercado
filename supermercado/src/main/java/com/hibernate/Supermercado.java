@@ -73,6 +73,12 @@ import javax.swing.table.TableRowSorter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
+import java.util.Date;
+
+
 public class Supermercado {
 	private JFrame frmSuper;
 	private JTextField textFieldNombre;
@@ -97,6 +103,7 @@ public class Supermercado {
 		initialize();
 	}
 
+	
 	private void initialize() {
 		frmSuper = new JFrame();
 		frmSuper.setIconImage(
@@ -110,7 +117,7 @@ public class Supermercado {
 		frmSuper.getContentPane().setLayout(null);
 		JPanel panelProductos = new JPanel();
 		panelProductos.setBackground(Color.WHITE);
-		panelProductos.setBounds(466, 129, 524, 467);
+		panelProductos.setBounds(470, 67, 524, 358);
 		frmSuper.getContentPane().add(panelProductos);
 		panelProductos.setLayout(null);
 
@@ -121,11 +128,11 @@ public class Supermercado {
 		panelProductos.add(lblProductos);
 
 		JComboBox<String> comboBoxCategorias = new JComboBox<>();
-		comboBoxCategorias.setBounds(143, 188, 201, 27);
+		comboBoxCategorias.setBounds(144, 115, 288, 27);
 		frmSuper.getContentPane().add(comboBoxCategorias);
 
 		JScrollPane scrollPaneProductos = new JScrollPane();
-		scrollPaneProductos.setBounds(6, 59, 512, 402);
+		scrollPaneProductos.setBounds(10, 57, 508, 290);
 		panelProductos.add(scrollPaneProductos);
 
 		// Crear la tabla
@@ -187,39 +194,39 @@ public class Supermercado {
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setForeground(new Color(238, 68, 93));
 		lblNombre.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblNombre.setBounds(62, 140, 69, 26);
+		lblNombre.setBounds(63, 67, 69, 26);
 		frmSuper.getContentPane().add(lblNombre);
 
 		JLabel lblCategora = new JLabel("Categoría");
 		lblCategora.setForeground(new Color(238, 68, 93));
 		lblCategora.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblCategora.setBounds(62, 188, 80, 26);
+		lblCategora.setBounds(63, 115, 80, 26);
 		frmSuper.getContentPane().add(lblCategora);
 
 		JLabel lblPrecio = new JLabel("Precio");
 		lblPrecio.setForeground(new Color(238, 68, 93));
 		lblPrecio.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblPrecio.setBounds(62, 236, 57, 26);
+		lblPrecio.setBounds(63, 163, 57, 26);
 		frmSuper.getContentPane().add(lblPrecio);
 
 		JLabel lblStock = new JLabel("Stock");
 		lblStock.setForeground(new Color(238, 68, 93));
 		lblStock.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblStock.setBounds(62, 284, 48, 26);
+		lblStock.setBounds(63, 211, 48, 26);
 		frmSuper.getContentPane().add(lblStock);
 
 		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(143, 140, 201, 26);
+		textFieldNombre.setBounds(144, 67, 288, 26);
 		frmSuper.getContentPane().add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 
 		textFieldPrecio = new JTextField();
-		textFieldPrecio.setBounds(143, 236, 201, 26);
+		textFieldPrecio.setBounds(144, 163, 288, 26);
 		frmSuper.getContentPane().add(textFieldPrecio);
 		textFieldPrecio.setColumns(10);
 
 		textFieldStock = new JTextField();
-		textFieldStock.setBounds(143, 284, 201, 26);
+		textFieldStock.setBounds(144, 211, 288, 26);
 		frmSuper.getContentPane().add(textFieldStock);
 		textFieldStock.setColumns(10);
 		// Obtener todas las categorías de la base de datos
@@ -334,7 +341,7 @@ public class Supermercado {
 			}
 		});
 		btnAgregar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnAgregar.setBounds(62, 350, 130, 59);
+		btnAgregar.setBounds(32, 277, 130, 59);
 		frmSuper.getContentPane().add(btnAgregar);
 
 		JButton btnActualizar = new JButton("");
@@ -440,7 +447,7 @@ public class Supermercado {
 			}
 		});
 		btnActualizar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnActualizar.setBounds(181, 350, 130, 59);
+		btnActualizar.setBounds(182, 277, 130, 59);
 		frmSuper.getContentPane().add(btnActualizar);
 
 		JButton btnEliminar = new JButton("");
@@ -478,7 +485,7 @@ public class Supermercado {
 		});
 
 		btnEliminar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnEliminar.setBounds(301, 350, 130, 59);
+		btnEliminar.setBounds(330, 277, 130, 59);
 		frmSuper.getContentPane().add(btnEliminar);
 
 		JButton btnMostrarTodos = new JButton("Mostrar todos");
@@ -493,11 +500,11 @@ public class Supermercado {
 		});
 
 		btnMostrarTodos.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnMostrarTodos.setBounds(62, 421, 369, 40);
+		btnMostrarTodos.setBounds(63, 385, 369, 40);
 		frmSuper.getContentPane().add(btnMostrarTodos);
 
 		JComboBox<String> comboBoxCategoriaConcreta = new JComboBox<String>();
-		comboBoxCategoriaConcreta.setBounds(62, 513, 369, 22);
+		comboBoxCategoriaConcreta.setBounds(63, 487, 369, 40);
 		frmSuper.getContentPane().add(comboBoxCategoriaConcreta);
 
 		// Obtener todas las categorías de la base de datos
@@ -526,7 +533,7 @@ public class Supermercado {
 		JLabel lblMostrarCategoraConcreta = new JLabel("Mostrar Categoría Concreta");
 		lblMostrarCategoraConcreta.setForeground(new Color(238, 68, 93));
 		lblMostrarCategoraConcreta.setFont(new Font("Dialog", Font.PLAIN, 16));
-		lblMostrarCategoraConcreta.setBounds(71, 472, 360, 26);
+		lblMostrarCategoraConcreta.setBounds(63, 450, 360, 26);
 		frmSuper.getContentPane().add(lblMostrarCategoraConcreta);
 
 		JButton btnMostrarSinStock = new JButton("Mostrar Sin Stock");
@@ -553,13 +560,319 @@ public class Supermercado {
 		});
 
 		btnMostrarSinStock.setFont(new Font("Dialog", Font.PLAIN, 16));
-		btnMostrarSinStock.setBounds(62, 556, 369, 40);
+		btnMostrarSinStock.setBounds(63, 586, 369, 40);
 		frmSuper.getContentPane().add(btnMostrarSinStock);
+		
+		JLabel lblFechaFin = new JLabel("Fecha Fin:");
+		lblFechaFin.setForeground(new Color(238, 68, 93));
+		lblFechaFin.setFont(new Font("Dialog", Font.PLAIN, 16));
+		lblFechaFin.setBounds(1030, 254, 105, 26);
+		frmSuper.getContentPane().add(lblFechaFin);
+		
+		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
+		lblFechaInicio.setForeground(new Color(238, 68, 93));
+		lblFechaInicio.setFont(new Font("Dialog", Font.PLAIN, 16));
+		lblFechaInicio.setBounds(1030, 187, 105, 26);
+		frmSuper.getContentPane().add(lblFechaInicio);
+		
+		JLabel lblNuevoProducto = new JLabel("Gestión de Productos");
+		lblNuevoProducto.setForeground(new Color(238, 68, 93));
+		lblNuevoProducto.setFont(new Font("Dialog", Font.PLAIN, 26));
+		lblNuevoProducto.setBounds(68, 11, 364, 46);
+		frmSuper.getContentPane().add(lblNuevoProducto);
+		
+		JLabel lblGestinDeOfertas = new JLabel("Gestión de Ofertas");
+		lblGestinDeOfertas.setForeground(new Color(238, 68, 93));
+		lblGestinDeOfertas.setFont(new Font("Dialog", Font.PLAIN, 26));
+		lblGestinDeOfertas.setBounds(1015, 11, 364, 46);
+		frmSuper.getContentPane().add(lblGestinDeOfertas);
+		
+		JLabel lblFechaInicio_1 = new JLabel("Producto:");
+		lblFechaInicio_1.setForeground(new Color(238, 68, 93));
+		lblFechaInicio_1.setFont(new Font("Dialog", Font.PLAIN, 16));
+		lblFechaInicio_1.setBounds(1030, 121, 105, 26);
+		frmSuper.getContentPane().add(lblFechaInicio_1);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(Supermercado.class.getResource("/img/logosuper.png")));
-		lblLogo.setBounds(1071, 72, 149, 142);
+		lblLogo.setBounds(1321, 484, 149, 142);
 		frmSuper.getContentPane().add(lblLogo);
+		
+		JPanel panelOfertas = new JPanel();
+		panelOfertas.setLayout(null);
+		panelOfertas.setBackground(Color.WHITE);
+		panelOfertas.setBounds(470, 436, 524, 214);
+		frmSuper.getContentPane().add(panelOfertas);
+		
+		JLabel lblOfertas = new JLabel("Ofertas");
+		lblOfertas.setForeground(new Color(238, 68, 93));
+		lblOfertas.setFont(new Font("Dialog", Font.PLAIN, 26));
+		lblOfertas.setBounds(202, 0, 171, 46);
+		panelOfertas.add(lblOfertas);
+		
+		JScrollPane scrollPaneOfertas = new JScrollPane();
+		scrollPaneOfertas.setBounds(6, 52, 508, 151);
+		panelOfertas.add(scrollPaneOfertas);
+		
+		
+		
+		
+		
+		// Crear la tabla
+				JTable tableOfertas = new JTable() {
+				    private static final long serialVersionUID = 1L;
+
+				    @Override
+				    // Hace que las celdas de la tabla no se puedan editar
+				    public boolean isCellEditable(int row, int column) {
+				        return false;
+				    }
+				};
+
+				// Obtener todas las ofertas de la base de datos
+				List<Ofertas> ofertas = AlmacenDAO.selectAllOfertas();
+
+				// Crear el modelo de tabla
+				DefaultTableModel modelOfertas = new DefaultTableModel();
+				modelOfertas.addColumn("ID");
+				modelOfertas.addColumn("Fecha Inicio");
+				modelOfertas.addColumn("Fecha Fin");
+				modelOfertas.addColumn("Precio Oferta");
+				modelOfertas.addColumn("Producto"); // Nueva columna para el producto
+
+				// Agregar los datos de las ofertas al modelo de tabla
+				for (Ofertas oferta : ofertas) {
+				    Object[] rowData = { oferta.getId(), oferta.getFechaInicio(), oferta.getFechaFin(),
+				        oferta.getPrecioOferta(), oferta.getProducto().getNombre() // Obtener el nombre del producto
+				    };
+				    modelOfertas.addRow(rowData);
+				}
+
+				// Asignar el modelo de tabla a la tabla
+				tableOfertas.setModel(modelOfertas);
+
+				// Agregar la tabla al JScrollPane
+				scrollPaneOfertas.setViewportView(tableOfertas);
+		
+		JDateChooser fechaInicioChooser = new JDateChooser();
+		fechaInicioChooser.setBounds(1145, 183, 288, 30);
+		frmSuper.getContentPane().add(fechaInicioChooser);
+
+		JDateChooser fechaFinChooser = new JDateChooser();
+		fechaFinChooser.setBounds(1145, 250, 288, 30);
+		frmSuper.getContentPane().add(fechaFinChooser);
+		
+		JComboBox comboBoxOferta = new JComboBox();
+		comboBoxOferta.setBounds(1145, 120, 288, 27);
+		frmSuper.getContentPane().add(comboBoxOferta);
+		// Obtener todos los productos de la base de datos
+		List<Productos> productosOferta = AlmacenDAO.selectAllProductos();
+
+		// Crear un modelo de ComboBox
+		DefaultComboBoxModel<Productos> comboBoxModel = new DefaultComboBoxModel<>();
+
+		// Agregar los productos al modelo del ComboBox
+		for (Productos producto : productosOferta) {
+		    comboBoxModel.addElement(producto);
+		}
+
+		// Asignar el modelo del ComboBox al JComboBox
+		comboBoxOferta.setModel(comboBoxModel);
+
+		JButton btnNuevaOferta = new JButton("Nueva");
+		btnNuevaOferta.setBounds(1174, 300, 112, 51);
+		frmSuper.getContentPane().add(btnNuevaOferta);
+		
+		btnNuevaOferta.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        // Obtener el producto seleccionado del JComboBox
+		        Productos productoSeleccionado = (Productos) comboBoxOferta.getSelectedItem();
+		        
+		        // Obtener las fechas seleccionadas de los JDateChooser
+		        Date fechaInicio = fechaInicioChooser.getDate();
+		        Date fechaFin = fechaFinChooser.getDate();
+		        
+		        // Validar que se hayan seleccionado un producto y las fechas
+		        if (productoSeleccionado == null || fechaInicio == null || fechaFin == null) {
+		            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+		            return;
+		        }
+		        
+		        // Crear una instancia de la clase Ofertas y asignar los valores
+		        Ofertas nuevaOferta = new Ofertas();
+		        nuevaOferta.setProducto(productoSeleccionado);
+		        nuevaOferta.setFechaInicio(fechaInicio);
+		        nuevaOferta.setFechaFin(fechaFin);
+		        
+		        // Guardar la nueva oferta en la base de datos
+		        AlmacenDAO.insertOferta(nuevaOferta);
+		        
+		        // Actualizar la tabla de ofertas
+		        // Obtener todas las ofertas de la base de datos
+		        List<Ofertas> ofertas = AlmacenDAO.selectAllOfertas();
+		        
+		        // Crear el modelo de tabla
+		        DefaultTableModel modelOfertas = new DefaultTableModel();
+		        modelOfertas.addColumn("ID");
+		        modelOfertas.addColumn("Producto");
+		        modelOfertas.addColumn("Fecha de Inicio");
+		        modelOfertas.addColumn("Fecha de Fin");
+		        modelOfertas.addColumn("Precio de Oferta");
+		        
+		        // Agregar los datos de las ofertas al modelo de tabla
+		        for (Ofertas oferta : ofertas) {
+		            Object[] rowData = { oferta.getId(), oferta.getProducto().getNombre(),
+		                                 oferta.getFechaInicio(), oferta.getFechaFin(),
+		                                 oferta.getPrecioOferta() };
+		            modelOfertas.addRow(rowData);
+		        }
+		        
+		        // Asignar el modelo de tabla a la tabla de ofertas
+		        tableOfertas.setModel(modelOfertas);
+		        
+		        // Mostrar mensaje de éxito
+		        JOptionPane.showMessageDialog(null, "Oferta agregada exitosamente.");
+		        
+		        // Limpiar los campos
+		        comboBoxOferta.setSelectedIndex(0);
+		        fechaInicioChooser.setDate(null);
+		        fechaFinChooser.setDate(null);
+		    }
+		});
+
+		btnNuevaOferta.setBounds(1030, 300, 112, 51);
+		frmSuper.getContentPane().add(btnNuevaOferta);
+ 
+
+		
+		// Botón Actualizar
+		JButton btnActualizarOferta = new JButton("Actualizar");
+		btnActualizarOferta.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        // Obtener la fila seleccionada en la tabla
+		        int filaSeleccionada = tableOfertas.getSelectedRow();
+		        
+		        // Validar que se haya seleccionado una fila
+		        if (filaSeleccionada == -1) {
+		            JOptionPane.showMessageDialog(null, "Por favor, seleccione una oferta para actualizar.");
+		            return;
+		        }
+		        
+		        // Obtener el ID de la oferta seleccionada
+		        int idOferta = (int) tableOfertas.getValueAt(filaSeleccionada, 0);
+		        
+		        // Obtener el producto seleccionado del JComboBox
+		        Productos productoSeleccionado = (Productos) comboBoxOferta.getSelectedItem();
+		        
+		        // Obtener las fechas seleccionadas de los JDateChooser
+		        Date fechaInicio = fechaInicioChooser.getDate();
+		        Date fechaFin = fechaFinChooser.getDate();
+		        
+		        // Validar que se hayan seleccionado un producto y las fechas
+		        if (productoSeleccionado == null || fechaInicio == null || fechaFin == null) {
+		            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+		            return;
+		        }
+		        
+		        // Crear una instancia de la clase Ofertas y asignar los valores
+		        Ofertas ofertaActualizada = new Ofertas();
+		        ofertaActualizada.setId(idOferta);
+		        ofertaActualizada.setProducto(productoSeleccionado);
+		        ofertaActualizada.setFechaInicio(fechaInicio);
+		        ofertaActualizada.setFechaFin(fechaFin);
+		        
+		        // Actualizar la oferta en la base de datos
+		        AlmacenDAO.updateOferta(ofertaActualizada);
+		        
+		        // Actualizar la tabla de ofertas
+		        List<Ofertas> ofertas = AlmacenDAO.selectAllOfertas();
+		        
+		        DefaultTableModel modelOfertas = (DefaultTableModel) tableOfertas.getModel();
+		        modelOfertas.setRowCount(0);
+		        
+		        for (Ofertas oferta : ofertas) {
+		            Object[] rowData = { oferta.getId(), oferta.getProducto().getNombre(),
+		                                 oferta.getFechaInicio(), oferta.getFechaFin(),
+		                                 oferta.getPrecioOferta() };
+		            modelOfertas.addRow(rowData);
+		        }
+		        
+		        // Mostrar mensaje de éxito
+		        JOptionPane.showMessageDialog(null, "Oferta actualizada exitosamente.");
+		        
+		        // Limpiar los campos
+		        comboBoxOferta.setSelectedIndex(0);
+		        fechaInicioChooser.setDate(null);
+		        fechaFinChooser.setDate(null);
+		    }
+		});
+		btnActualizarOferta.setBounds(1174, 300, 112, 51);
+		frmSuper.getContentPane().add(btnActualizarOferta);
+		
+		// Botón Borrar
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        // Obtener la fila seleccionada en la tabla
+		        int filaSeleccionada = tableOfertas.getSelectedRow();
+		        
+		        // Validar que se haya seleccionado una fila
+		        if (filaSeleccionada == -1) {
+		            JOptionPane.showMessageDialog(null, "Por favor, seleccione una oferta para borrar.");
+		            return;
+		        }
+		        
+		        // Obtener el ID de la oferta seleccionada
+		        int idOferta = (int) tableOfertas.getValueAt(filaSeleccionada, 0);
+		        
+		        // Confirmar si se desea borrar la oferta
+		        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de borrar la oferta?",
+		                "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+		        
+		        if (confirmacion == JOptionPane.YES_OPTION) {
+		            // Borrar la oferta de la base de datos
+		            AlmacenDAO.deleteOferta(idOferta);
+		            
+		            // Actualizar la tabla de ofertas
+		            List<Ofertas> ofertas = AlmacenDAO.selectAllOfertas();
+		            
+		            DefaultTableModel modelOfertas = new DefaultTableModel();
+		            modelOfertas.addColumn("ID");
+		            modelOfertas.addColumn("Producto");
+		            modelOfertas.addColumn("Fecha de Inicio");
+		            modelOfertas.addColumn("Fecha de Fin");
+		            modelOfertas.addColumn("Precio de Oferta");
+		            
+		            for (Ofertas oferta : ofertas) {
+		                Object[] rowData = {
+		                    oferta.getId(),
+		                    oferta.getProducto().getNombre(),
+		                    oferta.getFechaInicio(),
+		                    oferta.getFechaFin(),
+		                    oferta.getPrecioOferta()
+		                };
+		                modelOfertas.addRow(rowData);
+		            }
+		            
+		            tableOfertas.setModel(modelOfertas);
+		            
+		            // Mostrar mensaje de éxito
+		            JOptionPane.showMessageDialog(null, "Oferta borrada exitosamente.");
+		        }
+		    }
+		});
+		btnBorrar.setBounds(1321, 300, 112, 51);
+		frmSuper.getContentPane().add(btnBorrar);
+
+		
+
+
+		
+
+
 
 	}
 }

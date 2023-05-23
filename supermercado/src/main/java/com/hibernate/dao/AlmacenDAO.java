@@ -160,6 +160,65 @@ public class AlmacenDAO {
             e.printStackTrace();
         }
     }
+    public static List<Ofertas> selectAllOfertas() {
+        Transaction transaction = null;
+        List<Ofertas> ofertas = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            ofertas = session.createQuery("from Ofertas", Ofertas.class).getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return ofertas;
+    }
+    
+    public static void insertOferta(Ofertas oferta) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.persist(oferta);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateOferta(Ofertas oferta) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.merge(oferta);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteOferta(int idOferta) {
+        Transaction transaction = null;
+        Ofertas oferta = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            oferta = session.get(Ofertas.class, idOferta);
+            session.remove(oferta);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
 
     
 
