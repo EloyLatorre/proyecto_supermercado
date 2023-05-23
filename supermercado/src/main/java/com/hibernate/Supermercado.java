@@ -100,9 +100,10 @@ public class Supermercado {
 
     private void initialize() {
         frmSuper = new JFrame();
+        frmSuper.setIconImage(Toolkit.getDefaultToolkit().getImage(Supermercado.class.getResource("/img/logosuper.png")));
         frmSuper.setResizable(false);
         frmSuper.getContentPane().setBackground(Color.DARK_GRAY);
-        frmSuper.setBackground(new Color(250, 153, 56));
+        frmSuper.setBackground(new Color(0, 0, 0));
         frmSuper.setTitle("Supermercado");
         frmSuper.setBounds(100, 100, 1510, 700);
         frmSuper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,6 +115,7 @@ public class Supermercado {
         panelProductos.setLayout(null);
 
         JLabel lblProductos = new JLabel("Productos");
+        lblProductos.setForeground(new Color(238, 68, 93));
         lblProductos.setFont(new Font("Lucida Grande", Font.PLAIN, 26));
         lblProductos.setBounds(201, 6, 129, 46);
         panelProductos.add(lblProductos);
@@ -168,21 +170,25 @@ public class Supermercado {
         // Agregar la tabla al JScrollPane
         scrollPaneProductos.setViewportView(tableProductos);
         JLabel lblNombre = new JLabel("Nombre");
+        lblNombre.setForeground(new Color(238, 68, 93));
         lblNombre.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         lblNombre.setBounds(62, 140, 69, 26);
         frmSuper.getContentPane().add(lblNombre);
 
         JLabel lblCategora = new JLabel("Categoría");
+        lblCategora.setForeground(new Color(238, 68, 93));
         lblCategora.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         lblCategora.setBounds(62, 188, 80, 26);
         frmSuper.getContentPane().add(lblCategora);
 
         JLabel lblPrecio = new JLabel("Precio");
+        lblPrecio.setForeground(new Color(238, 68, 93));
         lblPrecio.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         lblPrecio.setBounds(62, 236, 57, 26);
         frmSuper.getContentPane().add(lblPrecio);
 
         JLabel lblStock = new JLabel("Stock");
+        lblStock.setForeground(new Color(238, 68, 93));
         lblStock.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         lblStock.setBounds(62, 284, 48, 26);
         frmSuper.getContentPane().add(lblStock);
@@ -225,13 +231,44 @@ public class Supermercado {
             modelProductos2.addElement(producto.getNombre());
         }
         listProductos.setModel(modelProductos2);
-        JButton btnAgregar = new JButton("Agregar");
+        JButton btnAgregar = new JButton("");
+        btnAgregar.setBackground(new Color(255, 255, 255));
+        btnAgregar.setIcon(new ImageIcon(Supermercado.class.getResource("/img/anadir.png")));
         btnAgregar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String nombre = textFieldNombre.getText();
-                double precio = Double.parseDouble(textFieldPrecio.getText());
-                int cantidad = Integer.parseInt(textFieldStock.getText());
+                String precioText = textFieldPrecio.getText();
+                String cantidadText = textFieldStock.getText();
                 String categoria = comboBoxCategorias.getSelectedItem().toString();
+
+                // Verificar que los campos no estén vacíos
+                if (nombre.isEmpty() || precioText.isEmpty() || cantidadText.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verificar que el precio y la cantidad sean valores numéricos
+                double precio;
+                int cantidad;
+                try {
+                    precio = Double.parseDouble(precioText);
+                    cantidad = Integer.parseInt(cantidadText);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "El precio y la cantidad deben ser valores numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verificar que la cantidad no sea negativa
+                if (cantidad < 0) {
+                    JOptionPane.showMessageDialog(null, "La cantidad no puede ser un valor negativo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verificar que el nombre contenga al menos una letra
+                if (!nombre.matches(".*[a-zA-Z].*")) {
+                    JOptionPane.showMessageDialog(null, "El nombre debe contener al menos una letra.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 // Obtener la categoría seleccionada
                 Categorias categoriaSeleccionada = null;
@@ -275,11 +312,15 @@ public class Supermercado {
             }
         });
         btnAgregar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        btnAgregar.setBounds(62, 369, 130, 40);
+        btnAgregar.setBounds(62, 350, 130, 59);
         frmSuper.getContentPane().add(btnAgregar);
 
 
-        JButton btnActualizar = new JButton("Actualizar");
+
+
+        JButton btnActualizar = new JButton("");
+        btnActualizar.setBackground(new Color(255, 255, 255));
+        btnActualizar.setIcon(new ImageIcon(Supermercado.class.getResource("/img/actualizar.png")));
         btnActualizar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -303,9 +344,38 @@ public class Supermercado {
 
                 // Obtener los nuevos valores de los campos de entrada
                 String nuevoNombre = textFieldNombre.getText();
-                double nuevoPrecio = Double.parseDouble(textFieldPrecio.getText());
-                int nuevaCantidad = Integer.parseInt(textFieldStock.getText());
+                String nuevoPrecioText = textFieldPrecio.getText();
+                String nuevaCantidadText = textFieldStock.getText();
                 String nuevaCategoria = comboBoxCategorias.getSelectedItem().toString();
+
+                // Verificar que los campos no estén vacíos
+                if (nuevoNombre.isEmpty() || nuevoPrecioText.isEmpty() || nuevaCantidadText.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verificar que el precio y la cantidad sean valores numéricos
+                double nuevoPrecio;
+                int nuevaCantidad;
+                try {
+                    nuevoPrecio = Double.parseDouble(nuevoPrecioText);
+                    nuevaCantidad = Integer.parseInt(nuevaCantidadText);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "El precio y la cantidad deben ser valores numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verificar que la cantidad no sea negativa
+                if (nuevaCantidad < 0) {
+                    JOptionPane.showMessageDialog(null, "La cantidad no puede ser un valor negativo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verificar que el nombre contenga al menos una letra
+                if (!nuevoNombre.matches(".*[a-zA-Z].*")) {
+                    JOptionPane.showMessageDialog(null, "El nombre debe contener al menos una letra.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 // Obtener la categoría seleccionada
                 Categorias categoriaSeleccionada = null;
@@ -320,7 +390,6 @@ public class Supermercado {
                     JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
                 // Actualizar los valores del producto
                 producto.setNombre(nuevoNombre);
                 producto.setPrecio(nuevoPrecio);
@@ -344,13 +413,15 @@ public class Supermercado {
             }
         });
         btnActualizar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        btnActualizar.setBounds(181, 369, 130, 40);
+        btnActualizar.setBounds(181, 350, 130, 59);
         frmSuper.getContentPane().add(btnActualizar);
 
    
 
 
-        JButton btnEliminar = new JButton("Eliminar");
+        JButton btnEliminar = new JButton("");
+        btnEliminar.setBackground(new Color(255, 255, 255));
+        btnEliminar.setIcon(new ImageIcon(Supermercado.class.getResource("/img/borrar.png")));
         btnEliminar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -380,10 +451,12 @@ public class Supermercado {
         });
 
         btnEliminar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        btnEliminar.setBounds(301, 369, 130, 40);
+        btnEliminar.setBounds(301, 350, 130, 59);
         frmSuper.getContentPane().add(btnEliminar);
 
         JButton btnMostrarTodos = new JButton("Mostrar todos");
+        btnMostrarTodos.setBackground(new Color(255, 255, 255));
+        btnMostrarTodos.setForeground(new Color(238, 68, 93));
         btnMostrarTodos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -425,11 +498,14 @@ public class Supermercado {
 
         
         JLabel lblMostrarCategoraConcreta = new JLabel("Mostrar Categoría Concreta");
+        lblMostrarCategoraConcreta.setForeground(new Color(238, 68, 93));
         lblMostrarCategoraConcreta.setFont(new Font("Dialog", Font.PLAIN, 16));
         lblMostrarCategoraConcreta.setBounds(71, 472, 360, 26);
         frmSuper.getContentPane().add(lblMostrarCategoraConcreta);
         
         JButton btnMostrarSinStock = new JButton("Mostrar Sin Stock");
+        btnMostrarSinStock.setForeground(new Color(238, 68, 93));
+        btnMostrarSinStock.setBackground(new Color(255, 255, 255));
         btnMostrarSinStock.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -452,6 +528,11 @@ public class Supermercado {
         btnMostrarSinStock.setFont(new Font("Dialog", Font.PLAIN, 16));
         btnMostrarSinStock.setBounds(62, 556, 369, 40);
         frmSuper.getContentPane().add(btnMostrarSinStock);
+        
+        JLabel lblLogo = new JLabel("");
+        lblLogo.setIcon(new ImageIcon(Supermercado.class.getResource("/img/logosuper.png")));
+        lblLogo.setBounds(1071, 72, 149, 142);
+        frmSuper.getContentPane().add(lblLogo);
 
 
     }
