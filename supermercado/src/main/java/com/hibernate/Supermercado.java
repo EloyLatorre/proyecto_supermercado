@@ -4,16 +4,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.util.List;
+import java.util.Locale;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import java.awt.Font;
-//import com.hibernate.Gimnasio;
+
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 import javax.swing.JComboBox;
@@ -33,11 +36,15 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableRowSorter;
 import com.toedter.calendar.JDateChooser;
 
 import java.util.Date;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+
+
 
 
 
@@ -47,6 +54,8 @@ public class Supermercado {
 	private JTextField textFieldPrecio;
 	private JTextField textFieldStock;
 	private JList<String> listProductos;
+
+
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -107,7 +116,22 @@ public class Supermercado {
 				return false;
 			}
 		};
+		  /*
+		* Alinea el texto al centro.
+		*/
 
+		DefaultTableCellRenderer cellRenderer = (DefaultTableCellRenderer) tableProductos
+		.getDefaultRenderer(Object.class);
+		cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+		/*
+		* Aplica estilo al encabezado de la tabla.
+		*/
+
+		JTableHeader header = tableProductos.getTableHeader();
+		header.setPreferredSize(new java.awt.Dimension(header.getWidth(), 35));
+
+		
 		// Obtener todos los productos de la base de datos
 		List<Productos> productos = AlmacenDAO.selectAllProductos();
 
@@ -132,8 +156,7 @@ public class Supermercado {
 		tableProductos.setModel(modelProductos);
 		tableProductos.addMouseListener(new MouseAdapter() {
 			@Override
-			// Al clicar en alguna de las celdas, se rellenan todos los campos con todos los
-			// datos correspondientes a la fila de la misma celda
+			// Al hacer clic en alguna de las celdas, se rellenan todos los campos con los datos correspondientes a la fila de esa celda
 			public void mouseClicked(MouseEvent e) {
 				int index = tableProductos.getSelectedRow();
 				TableModel model = tableProductos.getModel();
@@ -158,6 +181,7 @@ public class Supermercado {
 		lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
 		lblNombre.setBounds(63, 67, 69, 26);
 		frmSuper.getContentPane().add(lblNombre);
+
 
 		JLabel lblCategora = new JLabel("Categoría");
 		lblCategora.setForeground(new Color(238, 68, 93));
@@ -454,16 +478,32 @@ public class Supermercado {
 		btnMostrarTodos.setBackground(new Color(255, 255, 255));
 		btnMostrarTodos.setForeground(new Color(238, 68, 93));
 		btnMostrarTodos.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// Eliminar cualquier filtro aplicado a la tabla
-				tableProductos.setRowSorter(null);
-			}
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        // Eliminar cualquier filtro aplicado a la tabla
+		        tableProductos.setRowSorter(null);
+		        
+		        // Actualizar la tabla de productos mostrando todos los registros
+		        List<Productos> productos = AlmacenDAO.selectAllProductos();
+		        
+		        DefaultTableModel modelProductos = (DefaultTableModel) tableProductos.getModel();
+		        modelProductos.setRowCount(0);
+		        
+		        for (Productos producto : productos) {
+		            Object[] rowData = { producto.getId(), producto.getNombre(),
+		                                 producto.getPrecio(), producto.getCantidadStock(), producto.getCategorias() };
+		            modelProductos.addRow(rowData);
+		        }
+		        
+		        // Mostrar mensaje de éxito
+		        JOptionPane.showMessageDialog(null, "Se han mostrado todos los productos.");
+		    }
 		});
 
 		btnMostrarTodos.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
 		btnMostrarTodos.setBounds(32, 435, 428, 40);
 		frmSuper.getContentPane().add(btnMostrarTodos);
+
 
 		JComboBox<String> comboBoxCategoriaConcreta = new JComboBox<String>();
 		comboBoxCategoriaConcreta.setBounds(32, 537, 428, 40);
@@ -555,15 +595,38 @@ public class Supermercado {
 		
 		// Crear la tabla
 				JTable tableOfertas = new JTable() {
+					
 				    private static final long serialVersionUID = 1L;
+				    
 
 				    @Override
 				    // Hace que las celdas de la tabla no se puedan editar
 				    public boolean isCellEditable(int row, int column) {
 				        return false;
 				    }
+				    
 				};
+				
 
+				
+				  /*
+				* Alinea el texto al centro.
+				*/
+
+				DefaultTableCellRenderer cellRenderer2 = (DefaultTableCellRenderer) tableOfertas
+				.getDefaultRenderer(Object.class);
+				cellRenderer2.setHorizontalAlignment(SwingConstants.CENTER);
+
+				/*
+				* Aplica estilo al encabezado de la tabla.
+				*/
+
+				JTableHeader header2 = tableOfertas.getTableHeader();
+				header2.setPreferredSize(new java.awt.Dimension(header.getWidth(), 35));
+
+	
+				
+				
 				// Obtener todas las ofertas de la base de datos
 				List<Ofertas> ofertas = AlmacenDAO.selectAllOfertas();
 
@@ -574,13 +637,13 @@ public class Supermercado {
 				modelOfertas.addColumn("Fecha Fin");
 				modelOfertas.addColumn("Precio Oferta");
 				modelOfertas.addColumn("Producto"); // Nueva columna para el producto
-				DecimalFormat decimalFormat = new DecimalFormat("#.##"); // Formato para mostrar máximo dos decimales
-
-				for (Ofertas oferta : ofertas) {
-				    Object[] rowData = { oferta.getId(), oferta.getProducto().getNombre(),
-				                         oferta.getFechaInicio(), oferta.getFechaFin(),
-				                         decimalFormat.format(oferta.getPrecioOferta()) }; // Aplicar formato decimal
-				    modelOfertas.addRow(rowData);
+				 DecimalFormat decimalFormat = new DecimalFormat("#.##"); // Formato para mostrar máximo dos decimales
+			        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES")); // Formato de fecha
+			        for (Ofertas oferta : ofertas) {
+			            Object[] rowData = { oferta.getId(), dateFormat.format(oferta.getFechaInicio()),
+			                                 dateFormat.format(oferta.getFechaFin()), decimalFormat.format(oferta.getPrecioOferta()),
+			                                 oferta.getProducto().getNombre() };
+			            modelOfertas.addRow(rowData);
 				}
 
 				// Asignar el modelo de tabla a la tabla
@@ -708,11 +771,11 @@ public class Supermercado {
 		        modelOfertas.setRowCount(0);
 		        
 		        DecimalFormat decimalFormat = new DecimalFormat("#.##"); // Formato para mostrar máximo dos decimales
-		        
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES")); // Formato de fecha
 		        for (Ofertas oferta : ofertas) {
-		            Object[] rowData = { oferta.getId(), oferta.getProducto().getNombre(),
-		                                 oferta.getFechaInicio(), oferta.getFechaFin(),
-		                                 decimalFormat.format(oferta.getPrecioOferta()) }; // Aplicar formato decimal
+		            Object[] rowData = { oferta.getId(), dateFormat.format(oferta.getFechaInicio()),
+		                                 dateFormat.format(oferta.getFechaFin()), decimalFormat.format(oferta.getPrecioOferta()),
+		                                 oferta.getProducto().getNombre() };
 		            modelOfertas.addRow(rowData);
 		        }
 		        
@@ -824,11 +887,11 @@ public class Supermercado {
 		        modelOfertas.setRowCount(0);
 		        
 		        DecimalFormat decimalFormat = new DecimalFormat("#.##"); // Formato para mostrar máximo dos decimales
-		        
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES")); // Formato de fecha
 		        for (Ofertas oferta : ofertas) {
-		            Object[] rowData = { oferta.getId(), oferta.getProducto().getNombre(),
-		                                 oferta.getFechaInicio(), oferta.getFechaFin(),
-		                                 decimalFormat.format(oferta.getPrecioOferta()) }; // Aplicar formato decimal
+		            Object[] rowData = { oferta.getId(), dateFormat.format(oferta.getFechaInicio()),
+		                                 dateFormat.format(oferta.getFechaFin()), decimalFormat.format(oferta.getPrecioOferta()),
+		                                 oferta.getProducto().getNombre() };
 		            modelOfertas.addRow(rowData);
 		        }
 		        
@@ -893,6 +956,35 @@ public class Supermercado {
 		lblFechaInicio_1_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
 		lblFechaInicio_1_1.setBounds(1030, 121, 105, 26);
 		frmSuper.getContentPane().add(lblFechaInicio_1_1);
+		
+		// Botón Mostrar sin Stock
+		JButton btnMostrarSinStock = new JButton("Mostrar sin Stock");
+		btnMostrarSinStock.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        // Obtener la lista de productos sin stock
+		        List<Productos> productosSinStock = AlmacenDAO.selectProductosSinStock();
+		        
+		        // Actualizar la tabla de productos
+		        DefaultTableModel modelProductos = (DefaultTableModel) tableProductos.getModel();
+		        modelProductos.setRowCount(0);
+		        
+		        for (Productos producto : productosSinStock) {
+		            Object[] rowData = { producto.getId(), producto.getNombre(),
+		                                 producto.getPrecio(), producto.getCantidadStock(), producto.getCategorias() };
+		            modelProductos.addRow(rowData);
+		        }
+		        
+		        // Mostrar mensaje de éxito
+		        JOptionPane.showMessageDialog(null, "Se han mostrado los productos sin stock.");
+		    }
+		});
+
+		btnMostrarSinStock.setForeground(new Color(238, 68, 93));
+		btnMostrarSinStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		btnMostrarSinStock.setBackground(Color.WHITE);
+		btnMostrarSinStock.setBounds(32, 610, 428, 40);
+		frmSuper.getContentPane().add(btnMostrarSinStock);
 
 
 
