@@ -622,7 +622,8 @@ public class Supermercado {
 				*/
 
 				JTableHeader header2 = tableOfertas.getTableHeader();
-				header2.setPreferredSize(new java.awt.Dimension(header.getWidth(), 35));
+				header2.setPreferredSize(new java.awt.Dimension(header.getWidth() + 100, 35));
+
 
 	
 				
@@ -636,14 +637,19 @@ public class Supermercado {
 				modelOfertas.addColumn("Fecha Inicio");
 				modelOfertas.addColumn("Fecha Fin");
 				modelOfertas.addColumn("Precio Oferta");
+				modelOfertas.addColumn("Descuento"); // Nueva columna para el descuento
 				modelOfertas.addColumn("Producto"); // Nueva columna para el producto
+
 				 DecimalFormat decimalFormat = new DecimalFormat("#.##"); // Formato para mostrar máximo dos decimales
 			        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES")); // Formato de fecha
 			        for (Ofertas oferta : ofertas) {
-			            Object[] rowData = { oferta.getId(), dateFormat.format(oferta.getFechaInicio()),
-			                                 dateFormat.format(oferta.getFechaFin()), decimalFormat.format(oferta.getPrecioOferta()),
-			                                 oferta.getProducto().getNombre() };
-			            modelOfertas.addRow(rowData);
+			        	double descuentoTotal = (1 - (oferta.getPrecioOferta() / oferta.getProducto().getPrecio())) * 100;
+			        	Object[] rowData = { oferta.getId(), dateFormat.format(oferta.getFechaInicio()),
+			        	                     dateFormat.format(oferta.getFechaFin()), decimalFormat.format(oferta.getPrecioOferta()),
+			        	                     decimalFormat.format(descuentoTotal) + "%" , oferta.getProducto().getNombre() };
+			        	modelOfertas.addRow(rowData);
+
+
 				}
 
 				// Asignar el modelo de tabla a la tabla

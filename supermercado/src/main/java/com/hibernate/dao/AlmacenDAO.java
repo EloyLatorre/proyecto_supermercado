@@ -220,6 +220,24 @@ public class AlmacenDAO {
         }
     }
 
+    public static boolean ofertaExists(Ofertas nuevaOferta) {
+        boolean exists = false;
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Ofertas oferta = session.get(Ofertas.class, nuevaOferta);
+            exists = oferta != null;
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return exists;
+    }
+
+    
     
 
 }
