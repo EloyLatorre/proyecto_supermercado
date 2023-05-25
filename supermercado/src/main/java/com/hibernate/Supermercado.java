@@ -102,10 +102,8 @@ public class Supermercado {
 		comboBoxCategorias.setModel(new DefaultComboBoxModel<>(categorias.toArray(new String[0])));
 		frmSuper.getContentPane().add(comboBoxCategorias);
 
-
 		DefaultTableModel modelProductos = new DefaultTableModel() {
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			// Hace que las celdas de la tabla no se puedan editar
 			public boolean isCellEditable(int row, int column) {
@@ -165,7 +163,7 @@ public class Supermercado {
 		JScrollPane scrollPaneProductos = new JScrollPane(tableProductos);
 		scrollPaneProductos.setViewportBorder(null);
 		scrollPaneProductos.setBackground(new Color(238, 68, 93));
-		scrollPaneProductos.setBorder(new LineBorder(new Color(252, 138, 25), 0, true));
+		scrollPaneProductos.setBorder(null);
 		scrollPaneProductos.setBounds(480, 84, 508, 290);
 		scrollPaneProductos.getVerticalScrollBar().setBackground(new Color(252, 138, 25));
 		scrollPaneProductos.setVerticalScrollBar(new ScrollBarCustom());
