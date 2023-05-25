@@ -21,6 +21,8 @@ import javax.swing.table.TableModel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+
+import com.formdev.flatlaf.json.ParseException;
 import com.hibernate.dao.AlmacenDAO;
 import com.hibernate.model.*;
 import java.awt.event.MouseAdapter;
@@ -51,7 +53,6 @@ public class Supermercado {
 	private JTextField textFieldNombre;
 	private JTextField textFieldPrecio;
 	private JTextField textFieldStock;
-	private JList<String> listProductos;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -150,6 +151,12 @@ public class Supermercado {
 		textFieldStock.setColumns(10);
 		frmSuper.getContentPane().add(textFieldStock);
 
+		JLabel lblProductos = new JLabel("Productos");
+		lblProductos.setBounds(480, 30, 160, 40);
+		lblProductos.setForeground(new Color(238, 68, 93));
+		lblProductos.setFont(new Font("Corbel", Font.BOLD, 30));
+		frmSuper.getContentPane().add(lblProductos);
+
 		DefaultTableModel modelProductos = new DefaultTableModel() {
 			private static final long serialVersionUID = 1L;
 
@@ -165,13 +172,12 @@ public class Supermercado {
 		modelProductos.addColumn("Cantidad");
 		modelProductos.addColumn("Categoría");
 
-		// Crea una lista en la que se añaden todos los clientes que hay en la base de
+		// Crea una lista en la que se añaden todos los productos que hay en la base de
 		// datos
 		List<Producto> listaProductos;
 		listaProductos = almacenDAO.selectAllProductos();
 
-		// Rellena la tabla con todos los clientes que tienen un ejercicio asignado y
-		// con los mismos
+		// Rellena la tabla con todos los productos
 		for (Producto producto : listaProductos) {
 			Object[] row = new Object[5];
 			row[0] = producto.getId();
@@ -228,7 +234,8 @@ public class Supermercado {
 
 				// Verificar que los campos no estén vacíos
 				if (nombre.isEmpty() || precioText.isEmpty() || cantidadText.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "¡Por favor, llena todos los campos!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Por favor, llena todos los campos!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -239,25 +246,29 @@ public class Supermercado {
 					precio = Double.parseDouble(precioText);
 					cantidad = Integer.parseInt(cantidadText);
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "¡El precio y la cantidad deben ser valores numéricos!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El precio y la cantidad deben ser valores numéricos!",
+							"ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que el nombre del producto no esté repetido
 				if (almacenDAO.productoExiste(nombre)) {
-					JOptionPane.showMessageDialog(null, "¡Ya existe un producto con este nombre!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Ya existe un producto con este nombre!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que la cantidad no sea negativa
 				if (cantidad < 0) {
-					JOptionPane.showMessageDialog(null, "¡El stock no puede ser un valor negativo!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El stock no puede ser un valor negativo!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que el nombre contenga al menos una letra
 				if (!nombre.matches(".*[a-zA-Z].*")) {
-					JOptionPane.showMessageDialog(null, "¡El nombre debe contener al menos una letra!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El nombre debe contener al menos una letra!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -271,7 +282,8 @@ public class Supermercado {
 				}
 
 				if (categoriaSeleccionada == null) {
-					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -303,7 +315,8 @@ public class Supermercado {
 					modelProductos.addRow(row);
 				}
 
-				JOptionPane.showMessageDialog(null, "¡Producto agregado exitosamente!", "INFO", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "¡Producto agregado exitosamente!", "INFO",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnAgregar.setBorder(null);
@@ -319,7 +332,8 @@ public class Supermercado {
 				// Obtener el índice de la fila seleccionada en la tabla
 				int selectedRow = tableProductos.getSelectedRow();
 				if (selectedRow == -1) {
-					JOptionPane.showMessageDialog(null, "¡Selecciona un producto para actualizar!", "CUIDADO", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Selecciona un producto para actualizar!", "CUIDADO",
+							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 
@@ -329,7 +343,8 @@ public class Supermercado {
 				// Obtener el producto de la base de datos por su ID
 				Producto producto = almacenDAO.selectProductosById(productId);
 				if (producto == null) {
-					JOptionPane.showMessageDialog(null, "¡El producto seleccionado no existe!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El producto seleccionado no existe!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -341,7 +356,8 @@ public class Supermercado {
 
 				// Verificar que los campos no estén vacíos
 				if (nuevoNombre.isEmpty() || nuevoPrecioText.isEmpty() || nuevaCantidadText.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "¡Por favor, llena todos los campos!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Por favor, llena todos los campos!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -352,19 +368,22 @@ public class Supermercado {
 					nuevoPrecio = Double.parseDouble(nuevoPrecioText);
 					nuevaCantidad = Integer.parseInt(nuevaCantidadText);
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "¡El precio y la cantidad deben ser valores numéricos!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El precio y la cantidad deben ser valores numéricos!",
+							"ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que la cantidad no sea negativa
 				if (nuevaCantidad < 0) {
-					JOptionPane.showMessageDialog(null, "¡El stock no puede ser un valor negativo!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El stock no puede ser un valor negativo!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que el nombre contenga al menos una letra
 				if (!nuevoNombre.matches(".*[a-zA-Z].*")) {
-					JOptionPane.showMessageDialog(null, "¡El nombre debe contener al menos una letra!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El nombre debe contener al menos una letra!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -378,7 +397,8 @@ public class Supermercado {
 				}
 
 				if (categoriaSeleccionada == null) {
-					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				// Actualizar los valores del producto
@@ -408,7 +428,8 @@ public class Supermercado {
 					modelProductos.addRow(row);
 				}
 
-				JOptionPane.showMessageDialog(null, "¡Producto actualizado exitosamente!", "INFO", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "¡Producto actualizado exitosamente!", "INFO",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnActualizar.setBorder(null);
@@ -535,19 +556,19 @@ public class Supermercado {
 		lblMostrarCategoraConcreta.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
 		lblMostrarCategoraConcreta.setBounds(63, 572, 355, 25);
 		frmSuper.getContentPane().add(lblMostrarCategoraConcreta);
-		
+
 		JComboBox<String> comboBoxCategoriaConcreta = new JComboBox<String>();
 		comboBoxCategoriaConcreta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Obtener la categoría seleccionada
 				String categoriaSeleccionada = comboBoxCategoriaConcreta.getSelectedItem().toString();
-				
+
 				// Filtrar la tabla por la categoría seleccionada
 				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tableProductos.getModel());
 				tableProductos.setRowSorter(sorter);
 				List<RowFilter<Object, Object>> filters = new ArrayList<RowFilter<Object, Object>>();
 				int categoriaColumnIndex = 4; // Índice de la columna de categoría en el modelo de tabla
-				
+
 				// Si se selecciona "Todas las categorías", no se aplica ningún filtro
 				if (!categoriaSeleccionada.equals("Todas las categorías")) {
 					filters.add(RowFilter.regexFilter(categoriaSeleccionada, categoriaColumnIndex));
@@ -574,27 +595,13 @@ public class Supermercado {
 		// Seleccionar "Todas las categorías" por defecto
 		comboBoxCategoriaConcreta.setSelectedIndex(0);
 
-
-
 		
 
-		JLabel lblFechaFin = new JLabel("Fecha Fin:");
-		lblFechaFin.setForeground(new Color(238, 68, 93));
-		lblFechaFin.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblFechaFin.setBounds(1037, 228, 105, 25);
-		frmSuper.getContentPane().add(lblFechaFin);
-
-		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
-		lblFechaInicio.setForeground(new Color(238, 68, 93));
-		lblFechaInicio.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblFechaInicio.setBounds(1037, 180, 105, 25);
-		frmSuper.getContentPane().add(lblFechaInicio);
-
-		JLabel lblGestinDeOfertas = new JLabel("Gestión de Ofertas");
-		lblGestinDeOfertas.setForeground(new Color(238, 68, 93));
-		lblGestinDeOfertas.setFont(new Font("Corbel", Font.BOLD, 30));
-		lblGestinDeOfertas.setBounds(1037, 33, 270, 40);
-		frmSuper.getContentPane().add(lblGestinDeOfertas);
+		JLabel lblGestionDeOfertas = new JLabel("Gestión de Ofertas");
+		lblGestionDeOfertas.setForeground(new Color(238, 68, 93));
+		lblGestionDeOfertas.setFont(new Font("Corbel", Font.BOLD, 30));
+		lblGestionDeOfertas.setBounds(1037, 33, 270, 40);
+		frmSuper.getContentPane().add(lblGestionDeOfertas);
 
 		JLabel lblProducto = new JLabel("Producto:");
 		lblProducto.setForeground(new Color(238, 68, 93));
@@ -602,12 +609,74 @@ public class Supermercado {
 		lblProducto.setBounds(1037, 84, 105, 25);
 		frmSuper.getContentPane().add(lblProducto);
 
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon(Supermercado.class.getResource("/img/logosuper.png")));
-		lblLogo.setBounds(1242, 485, 149, 142);
-		frmSuper.getContentPane().add(lblLogo);
+		JLabel lblDescuento = new JLabel("Descuento:");
+		lblDescuento.setForeground(new Color(238, 68, 93));
+		lblDescuento.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblDescuento.setBounds(1037, 129, 105, 26);
+		frmSuper.getContentPane().add(lblDescuento);
 
-		DefaultTableModel modelOfertas = new DefaultTableModel();
+		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
+		lblFechaInicio.setForeground(new Color(238, 68, 93));
+		lblFechaInicio.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblFechaInicio.setBounds(1037, 180, 105, 25);
+		frmSuper.getContentPane().add(lblFechaInicio);
+
+		JLabel lblFechaFin = new JLabel("Fecha Fin:");
+		lblFechaFin.setForeground(new Color(238, 68, 93));
+		lblFechaFin.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblFechaFin.setBounds(1037, 228, 105, 25);
+		frmSuper.getContentPane().add(lblFechaFin);
+
+		// Obtener todos los productos de la base de datos
+		List<Producto> productosOferta = almacenDAO.selectAllProductos();
+		DefaultComboBoxModel<Producto> comboBoxModel = new DefaultComboBoxModel<>();
+		for (Producto producto : productosOferta) {
+			comboBoxModel.addElement(producto);
+		}
+
+		JComboBox comboBoxProducto = new JComboBox();
+		((JLabel) comboBoxProducto.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		comboBoxProducto.setBorder(null);
+		comboBoxProducto.setBounds(1156, 84, 235, 25);
+		comboBoxProducto.setModel(comboBoxModel);
+		frmSuper.getContentPane().add(comboBoxProducto);
+
+		JComboBox comboBoxDescuento = new JComboBox();
+		((JLabel) comboBoxDescuento.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		comboBoxDescuento.setBorder(null);
+		comboBoxDescuento.setBounds(1156, 132, 235, 25);
+		comboBoxDescuento.addItem("10%");
+		comboBoxDescuento.addItem("20%");
+		comboBoxDescuento.addItem("30%");
+		comboBoxDescuento.addItem("40%");
+		comboBoxDescuento.addItem("50%");
+		comboBoxDescuento.addItem("60%");
+		comboBoxDescuento.addItem("70%");
+		frmSuper.getContentPane().add(comboBoxDescuento);
+
+		JDateChooser fechaInicioChooser = new JDateChooser();
+		fechaInicioChooser.setBounds(1156, 180, 235, 25);
+		frmSuper.getContentPane().add(fechaInicioChooser);
+
+		JDateChooser fechaFinChooser = new JDateChooser();
+		fechaFinChooser.setBounds(1156, 228, 235, 25);
+		frmSuper.getContentPane().add(fechaFinChooser);
+
+		JLabel lblOfertas = new JLabel("Ofertas");
+		lblOfertas.setBounds(480, 401, 140, 40);
+		frmSuper.getContentPane().add(lblOfertas);
+		lblOfertas.setForeground(new Color(238, 68, 93));
+		lblOfertas.setFont(new Font("Corbel", Font.BOLD, 30));
+
+		DefaultTableModel modelOfertas = new DefaultTableModel() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			// Hace que las celdas de la tabla no se puedan editar
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		modelOfertas.addColumn("ID");
 		modelOfertas.addColumn("Fecha Inicio");
 		modelOfertas.addColumn("Fecha Fin");
@@ -615,6 +684,8 @@ public class Supermercado {
 		modelOfertas.addColumn("Descuento");
 		modelOfertas.addColumn("Producto");
 
+		// Crea una lista en la que se añaden todos los productos que hay en la base de
+		// datos
 		DecimalFormat decimalFormat = new DecimalFormat("#.##"); // Formato para mostrar máximo dos decimales
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES")); // Formato de fecha
 
@@ -631,68 +702,76 @@ public class Supermercado {
 			modelOfertas.addRow(row);
 		}
 
-		// Crear la tabla
-		JTable tableOfertas = new JTable() {
-			private static final long serialVersionUID = 1L;
+		TableRed tableOfertas = new TableRed();
+		tableOfertas.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        int index = tableOfertas.getSelectedRow();
+		        TableModel model = tableOfertas.getModel();
 
-			@Override
-			// Hace que las celdas de la tabla no se puedan editar
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
+		        // Convertir y asignar el valor del producto
+		        String nombreProducto = model.getValueAt(index, 5).toString();
+		        Producto productoSeleccionado = null;
+		        for (Producto producto : productosOferta) {
+		            if (producto.getNombre().equals(nombreProducto)) {
+		                productoSeleccionado = producto;
+		                break;
+		            }
+		        }
+		        if (productoSeleccionado != null) {
+		            comboBoxProducto.setSelectedItem(productoSeleccionado);
+		        }
 
-		};
+
+		        // Convertir y asignar el valor del descuento
+		        String descuento = model.getValueAt(index, 4).toString();
+		        comboBoxDescuento.setSelectedItem(descuento);
+
+		        // Convertir y asignar las fechas de inicio y fin
+		        try {
+		            Date fechaInicio = dateFormat.parse(model.getValueAt(index, 1).toString());
+		            fechaInicioChooser.setDate(fechaInicio);
+		            Date fechaFin = dateFormat.parse(model.getValueAt(index, 2).toString());
+		            fechaFinChooser.setDate(fechaFin);
+		        } catch (ParseException parseException) {
+		            parseException.printStackTrace();
+		        } catch (java.text.ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    }
+		});
 		tableOfertas.setModel(modelOfertas);
+		tableOfertas.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tableOfertas.getColumnModel().getColumn(5).setPreferredWidth(100);
+		tableOfertas.setColumnAlignment(0, JLabel.CENTER);
+		tableOfertas.setCellAlignment(0, JLabel.CENTER);
+		tableOfertas.setColumnAlignment(1, JLabel.CENTER);
+		tableOfertas.setCellAlignment(1, JLabel.CENTER);
+		tableOfertas.setColumnAlignment(2, JLabel.CENTER);
+		tableOfertas.setCellAlignment(2, JLabel.CENTER);
+		tableOfertas.setColumnAlignment(3, JLabel.CENTER);
+		tableOfertas.setCellAlignment(3, JLabel.CENTER);
+		tableOfertas.setColumnAlignment(4, JLabel.CENTER);
+		tableOfertas.setCellAlignment(4, JLabel.CENTER);
+		tableOfertas.setColumnAlignment(5, JLabel.CENTER);
+		tableOfertas.setCellAlignment(5, JLabel.CENTER);
 
-		JScrollPane scrollPaneOfertas = new JScrollPane();
+		JScrollPane scrollPaneOfertas = new JScrollPane(tableOfertas);
+		scrollPaneOfertas.setViewportBorder(null);
+		scrollPaneOfertas.setBackground(new Color(238, 68, 93));
+		scrollPaneOfertas.setBorder(new LineBorder(new Color(252, 138, 25), 0, true));
 		scrollPaneOfertas.setBounds(480, 452, 508, 192);
-		scrollPaneOfertas.setViewportView(tableOfertas);
+		scrollPaneOfertas.getVerticalScrollBar().setBackground(new Color(252, 138, 25));
+		scrollPaneOfertas.setVerticalScrollBar(new ScrollBarCustom());
 		frmSuper.getContentPane().add(scrollPaneOfertas);
-
-		JDateChooser fechaInicioChooser = new JDateChooser();
-		fechaInicioChooser.setBounds(1156, 180, 235, 25);
-		frmSuper.getContentPane().add(fechaInicioChooser);
-
-		JDateChooser fechaFinChooser = new JDateChooser();
-		fechaFinChooser.setBounds(1156, 228, 235, 25);
-		frmSuper.getContentPane().add(fechaFinChooser);
-
-		// Obtener todos los productos de la base de datos
-		List<Producto> productosOferta = almacenDAO.selectAllProductos();
-		DefaultComboBoxModel<Producto> comboBoxModel = new DefaultComboBoxModel<>();
-		for (Producto producto : productosOferta) {
-			comboBoxModel.addElement(producto);
-		}
-
-		JComboBox comboBoxOferta = new JComboBox();
-		((JLabel) comboBoxOferta.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-		comboBoxOferta.setBorder(null);
-		comboBoxOferta.setBounds(1156, 84, 235, 25);
-		comboBoxOferta.setModel(comboBoxModel);
-		frmSuper.getContentPane().add(comboBoxOferta);
-
-		// Asignar el modelo del ComboBox al JComboBox
-
-		JComboBox comboBoxDescuento = new JComboBox();
-		((JLabel) comboBoxDescuento.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-		comboBoxDescuento.setBorder(null);
-		comboBoxDescuento.setBounds(1156, 132, 235, 25);
-		comboBoxDescuento.addItem("10% de descuento");
-		comboBoxDescuento.addItem("20% de descuento");
-		comboBoxDescuento.addItem("30% de descuento");
-		comboBoxDescuento.addItem("40% de descuento");
-		comboBoxDescuento.addItem("50% de descuento");
-		comboBoxDescuento.addItem("60% de descuento");
-		comboBoxDescuento.addItem("70% de descuento");
-		frmSuper.getContentPane().add(comboBoxDescuento);
-
+		
 		// Botón Nueva Oferta
 		JButton btnNuevaOferta = new JButton("");
-		btnNuevaOferta.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btnNuevaOferta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				// Obtener el producto seleccionado del JComboBox
-				Producto productoSeleccionado = (Producto) comboBoxOferta.getSelectedItem();
+				Producto productoSeleccionado = (Producto) comboBoxProducto.getSelectedItem();
 
 				// Obtener las fechas seleccionadas de los JDateChooser
 				Date fechaInicio = fechaInicioChooser.getDate();
@@ -701,6 +780,12 @@ public class Supermercado {
 				// Obtener el descuento seleccionado del JComboBox
 				String descuentoSeleccionado = (String) comboBoxDescuento.getSelectedItem();
 
+				// Comprobar si ya existe una oferta para el producto y las fechas seleccionadas
+				if (almacenDAO.existsOfertaForProductAndDates(productoSeleccionado, fechaInicio, fechaFin)) {
+				    JOptionPane.showMessageDialog(null, "Ya existe una oferta para este producto con las mismas fechas.");
+				    return;
+				}
+				
 				// Validar que se hayan seleccionado un producto, las fechas y el descuento
 				if (productoSeleccionado == null || fechaInicio == null || fechaFin == null
 						|| descuentoSeleccionado == null) {
@@ -728,19 +813,19 @@ public class Supermercado {
 				double precioOferta;
 				if (descuentoSeleccionado.equals("Sin descuento")) {
 					precioOferta = precioNormal;
-				} else if (descuentoSeleccionado.equals("10% de descuento")) {
+				} else if (descuentoSeleccionado.equals("10%")) {
 					precioOferta = precioNormal * 0.9;
-				} else if (descuentoSeleccionado.equals("20% de descuento")) {
+				} else if (descuentoSeleccionado.equals("20%")) {
 					precioOferta = precioNormal * 0.8;
-				} else if (descuentoSeleccionado.equals("30% de descuento")) {
+				} else if (descuentoSeleccionado.equals("30%")) {
 					precioOferta = precioNormal * 0.7;
-				} else if (descuentoSeleccionado.equals("40% de descuento")) {
+				} else if (descuentoSeleccionado.equals("40%")) {
 					precioOferta = precioNormal * 0.6;
-				} else if (descuentoSeleccionado.equals("50% de descuento")) {
+				} else if (descuentoSeleccionado.equals("50%")) {
 					precioOferta = precioNormal * 0.5;
-				} else if (descuentoSeleccionado.equals("60% de descuento")) {
+				} else if (descuentoSeleccionado.equals("60%")) {
 					precioOferta = precioNormal * 0.4;
-				} else if (descuentoSeleccionado.equals("70% de descuento")) {
+				} else if (descuentoSeleccionado.equals("70%")) {
 					precioOferta = precioNormal * 0.3;
 				} else {
 					// Opción de descuento no válida
@@ -780,7 +865,7 @@ public class Supermercado {
 				JOptionPane.showMessageDialog(null, "Oferta agregada exitosamente.");
 
 				// Limpiar los campos
-				comboBoxOferta.setSelectedIndex(0);
+				comboBoxProducto.setSelectedIndex(0);
 				fechaInicioChooser.setDate(null);
 				fechaFinChooser.setDate(null);
 				comboBoxDescuento.setSelectedIndex(0);
@@ -794,9 +879,8 @@ public class Supermercado {
 
 		// Botón Actualizar
 		JButton btnActualizarOferta = new JButton("");
-		btnActualizarOferta.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btnActualizarOferta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				// Obtener la fila seleccionada en la tabla
 				int filaSeleccionada = tableOfertas.getSelectedRow();
 
@@ -810,7 +894,7 @@ public class Supermercado {
 				int idOferta = (int) tableOfertas.getValueAt(filaSeleccionada, 0);
 
 				// Obtener el producto seleccionado del JComboBox
-				Producto productoSeleccionado = (Producto) comboBoxOferta.getSelectedItem();
+				Producto productoSeleccionado = (Producto) comboBoxProducto.getSelectedItem();
 
 				// Obtener las fechas seleccionadas de los JDateChooser
 				Date fechaInicio = fechaInicioChooser.getDate();
@@ -846,19 +930,19 @@ public class Supermercado {
 				double precioOferta;
 				if (descuentoSeleccionado.equals("Sin descuento")) {
 					precioOferta = precioNormal;
-				} else if (descuentoSeleccionado.equals("10% de descuento")) {
+				} else if (descuentoSeleccionado.equals("10%")) {
 					precioOferta = precioNormal * 0.9;
-				} else if (descuentoSeleccionado.equals("20% de descuento")) {
+				} else if (descuentoSeleccionado.equals("20%")) {
 					precioOferta = precioNormal * 0.8;
-				} else if (descuentoSeleccionado.equals("30% de descuento")) {
+				} else if (descuentoSeleccionado.equals("30%")) {
 					precioOferta = precioNormal * 0.7;
-				} else if (descuentoSeleccionado.equals("40% de descuento")) {
+				} else if (descuentoSeleccionado.equals("40%")) {
 					precioOferta = precioNormal * 0.6;
-				} else if (descuentoSeleccionado.equals("50% de descuento")) {
+				} else if (descuentoSeleccionado.equals("50%")) {
 					precioOferta = precioNormal * 0.5;
-				} else if (descuentoSeleccionado.equals("60% de descuento")) {
+				} else if (descuentoSeleccionado.equals("60%")) {
 					precioOferta = precioNormal * 0.4;
-				} else if (descuentoSeleccionado.equals("70% de descuento")) {
+				} else if (descuentoSeleccionado.equals("70%")) {
 					precioOferta = precioNormal * 0.3;
 				} else {
 					// Opción de descuento no válida
@@ -899,7 +983,7 @@ public class Supermercado {
 				JOptionPane.showMessageDialog(null, "Oferta actualizada exitosamente.");
 
 				// Limpiar los campos
-				comboBoxOferta.setSelectedIndex(0);
+				comboBoxProducto.setSelectedIndex(0);
 				fechaInicioChooser.setDate(null);
 				fechaFinChooser.setDate(null);
 				comboBoxDescuento.setSelectedIndex(0);
@@ -912,10 +996,9 @@ public class Supermercado {
 		frmSuper.getContentPane().add(btnActualizarOferta);
 
 		// Botón Borrar
-		JButton btnBorrar = new JButton("");
-		btnBorrar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		JButton btnBorrarOferta = new JButton("");
+		btnBorrarOferta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				// Obtener la fila seleccionada en la tabla
 				int filaSeleccionada = tableOfertas.getSelectedRow();
 
@@ -947,29 +1030,32 @@ public class Supermercado {
 				}
 			}
 		});
-		btnBorrar.setBorder(null);
-		btnBorrar.setIcon(new ImageIcon(Supermercado.class.getResource("/img/borrar.png")));
-		btnBorrar.setBackground(new Color(255, 255, 255));
-		btnBorrar.setBounds(1301, 314, 90, 60);
-		frmSuper.getContentPane().add(btnBorrar);
+		btnBorrarOferta.setBorder(null);
+		btnBorrarOferta.setIcon(new ImageIcon(Supermercado.class.getResource("/img/borrar.png")));
+		btnBorrarOferta.setBackground(new Color(255, 255, 255));
+		btnBorrarOferta.setBounds(1301, 314, 90, 60);
+		frmSuper.getContentPane().add(btnBorrarOferta);
 
-		JLabel lblDescuento = new JLabel("Descuento:");
-		lblDescuento.setForeground(new Color(238, 68, 93));
-		lblDescuento.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblDescuento.setBounds(1037, 129, 105, 26);
-		frmSuper.getContentPane().add(lblDescuento);
-
-		JLabel lblOfertas = new JLabel("Ofertas");
-		lblOfertas.setBounds(480, 401, 140, 40);
-		frmSuper.getContentPane().add(lblOfertas);
-		lblOfertas.setForeground(new Color(238, 68, 93));
-		lblOfertas.setFont(new Font("Corbel", Font.BOLD, 30));
-
-		JLabel lblProductos = new JLabel("Productos");
-		lblProductos.setBounds(480, 30, 160, 40);
-		lblProductos.setForeground(new Color(238, 68, 93));
-		lblProductos.setFont(new Font("Corbel", Font.BOLD, 30));
-		frmSuper.getContentPane().add(lblProductos);
+		JButton buttonCleanOferta = new JButton("");
+		buttonCleanOferta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboBoxProducto.setSelectedIndex(0);
+				comboBoxDescuento.setSelectedIndex(0);
+				fechaInicioChooser.setDate(null);;
+				fechaFinChooser.setDate(null);;
+			}
+		});
+		buttonCleanOferta.setIcon(new ImageIcon(Supermercado.class.getResource("/img/clean.png")));
+		buttonCleanOferta.setBorder(null);
+		buttonCleanOferta.setBackground((Color) null);
+		buttonCleanOferta.setBounds(1361, 33, 30, 30);
+		frmSuper.getContentPane().add(buttonCleanOferta);
+		
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(Supermercado.class.getResource("/img/logosuper.png")));
+		lblLogo.setBounds(1242, 485, 149, 142);
+		frmSuper.getContentPane().add(lblLogo);
+		
 
 	}
 }

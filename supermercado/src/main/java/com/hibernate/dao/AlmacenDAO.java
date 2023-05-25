@@ -14,6 +14,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AlmacenDAO {
@@ -130,8 +131,7 @@ public class AlmacenDAO {
 		List<Producto> productosSinStock = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			productosSinStock = session.createQuery("from Producto where cantidad = 0", Producto.class)
-					.getResultList();
+			productosSinStock = session.createQuery("from Producto where cantidad = 0", Producto.class).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -299,27 +299,36 @@ public class AlmacenDAO {
 	}
 
 	/**
-	 * Verifica si una oferta ya existe en la base de datos
-	 * 
-	 * @param nuevaOferta - oferta a verificar
-	 * @return verdadero si existe, falso en caso contrario
+	 * Verifica si una oferta ya existe
+	 * @param producto - objeto producto
+	 * @param fechaInicio - fecha de inicio de la oferta
+	 * @param fechaFin - fecha fin de la oferta
+	 * @return
 	 */
-	public boolean ofertaExists(Oferta nuevaOferta) {
-		boolean exists = false;
-		Transaction transaction = null;
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			Oferta oferta = session.get(Oferta.class, nuevaOferta);
-			exists = oferta != null;
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
-		}
-		return exists;
+	public boolean existsOfertaForProductAndDates(Producto producto, Date fechaInicio, Date fechaFin) {
+	    Transaction transaction = null;
+	    List<Oferta> ofertas = null;
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        transaction = session.beginTransaction();
+	        CriteriaBuilder builder = session.getCriteriaBuilder();
+	        CriteriaQuery<Oferta> query = builder.createQuery(Oferta.class);
+	        Root<Oferta> root = query.from(Oferta.class);
+	        query.select(root).where(
+	                builder.equal(root.get("producto"), producto),
+	                builder.equal(root.get("fechaInicio"), fechaInicio),
+	                builder.equal(root.get("fechaFin"), fechaFin)
+	        );
+	        ofertas = session.createQuery(query).getResultList();
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return ofertas != null && !ofertas.isEmpty();
 	}
+
 
 	/**
 	 * Verifica si un producto ya existe en la base de datos
