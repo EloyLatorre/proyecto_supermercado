@@ -87,7 +87,43 @@ public class Supermercado {
 		Border empty = new EmptyBorder(0, 5, 0, 0);
 
 		AlmacenDAO almacenDAO = new AlmacenDAO();
-		
+
+		JLabel lblGestionProducto = new JLabel("Gestión de Productos");
+		lblGestionProducto.setForeground(new Color(238, 68, 93));
+		lblGestionProducto.setFont(new Font("Corbel", Font.BOLD, 30));
+		lblGestionProducto.setBounds(63, 33, 295, 40);
+		frmSuper.getContentPane().add(lblGestionProducto);
+
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setForeground(new Color(238, 68, 93));
+		lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblNombre.setBounds(63, 84, 80, 25);
+		frmSuper.getContentPane().add(lblNombre);
+
+		JLabel lblCategora = new JLabel("Categoría:");
+		lblCategora.setForeground(new Color(238, 68, 93));
+		lblCategora.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblCategora.setBounds(63, 132, 80, 25);
+		frmSuper.getContentPane().add(lblCategora);
+
+		JLabel lblPrecio = new JLabel("Precio:");
+		lblPrecio.setForeground(new Color(238, 68, 93));
+		lblPrecio.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblPrecio.setBounds(63, 177, 80, 25);
+		frmSuper.getContentPane().add(lblPrecio);
+
+		JLabel lblStock = new JLabel("Stock:");
+		lblStock.setForeground(new Color(238, 68, 93));
+		lblStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblStock.setBounds(63, 228, 80, 25);
+		frmSuper.getContentPane().add(lblStock);
+
+		textFieldNombre = new JTextField();
+		textFieldNombre.setBorder(empty);
+		textFieldNombre.setBounds(182, 84, 235, 25);
+		textFieldNombre.setColumns(10);
+		frmSuper.getContentPane().add(textFieldNombre);
+
 		// Obtener todas las categorías de la base de datos
 		List<Categoria> categoriasList = almacenDAO.selectAllCategorias();
 		List<String> categorias = new ArrayList<>();
@@ -102,8 +138,21 @@ public class Supermercado {
 		comboBoxCategorias.setModel(new DefaultComboBoxModel<>(categorias.toArray(new String[0])));
 		frmSuper.getContentPane().add(comboBoxCategorias);
 
+		textFieldPrecio = new JTextField();
+		textFieldPrecio.setBorder(empty);
+		textFieldPrecio.setBounds(182, 180, 235, 25);
+		textFieldPrecio.setColumns(10);
+		frmSuper.getContentPane().add(textFieldPrecio);
+
+		textFieldStock = new JTextField();
+		textFieldStock.setBorder(empty);
+		textFieldStock.setBounds(182, 228, 235, 25);
+		textFieldStock.setColumns(10);
+		frmSuper.getContentPane().add(textFieldStock);
+
 		DefaultTableModel modelProductos = new DefaultTableModel() {
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			// Hace que las celdas de la tabla no se puedan editar
 			public boolean isCellEditable(int row, int column) {
@@ -163,78 +212,11 @@ public class Supermercado {
 		JScrollPane scrollPaneProductos = new JScrollPane(tableProductos);
 		scrollPaneProductos.setViewportBorder(null);
 		scrollPaneProductos.setBackground(new Color(238, 68, 93));
-		scrollPaneProductos.setBorder(null);
+		scrollPaneProductos.setBorder(new LineBorder(new Color(252, 138, 25), 0, true));
 		scrollPaneProductos.setBounds(480, 84, 508, 290);
 		scrollPaneProductos.getVerticalScrollBar().setBackground(new Color(252, 138, 25));
 		scrollPaneProductos.setVerticalScrollBar(new ScrollBarCustom());
 		frmSuper.getContentPane().add(scrollPaneProductos);
-
-		// Obtener todos los productos de la base de datos
-		List<Producto> productos = almacenDAO.selectAllProductos();
-		DefaultListModel<String> modelProductos2 = new DefaultListModel<>();
-		for (Producto producto : productos) {
-			modelProductos2.addElement(producto.getNombre());
-		}
-		listProductos = new JList<>();
-		listProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listProductos.setModel(modelProductos2);
-
-		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setForeground(new Color(238, 68, 93));
-		lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblNombre.setBounds(63, 84, 80, 25);
-		frmSuper.getContentPane().add(lblNombre);
-
-		JLabel lblCategora = new JLabel("Categoría:");
-		lblCategora.setForeground(new Color(238, 68, 93));
-		lblCategora.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblCategora.setBounds(63, 132, 80, 25);
-		frmSuper.getContentPane().add(lblCategora);
-
-		JLabel lblPrecio = new JLabel("Precio:");
-		lblPrecio.setForeground(new Color(238, 68, 93));
-		lblPrecio.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblPrecio.setBounds(63, 177, 80, 25);
-		frmSuper.getContentPane().add(lblPrecio);
-
-		JLabel lblStock = new JLabel("Stock:");
-		lblStock.setForeground(new Color(238, 68, 93));
-		lblStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblStock.setBounds(63, 228, 80, 25);
-		frmSuper.getContentPane().add(lblStock);
-
-		textFieldNombre = new JTextField();
-		textFieldNombre.setBorder(empty);
-		textFieldNombre.setBounds(182, 84, 235, 25);
-		textFieldNombre.setColumns(10);
-		frmSuper.getContentPane().add(textFieldNombre);
-
-		textFieldPrecio = new JTextField();
-		textFieldPrecio.setBorder(empty);
-		textFieldPrecio.setBounds(182, 180, 235, 25);
-		textFieldPrecio.setColumns(10);
-		frmSuper.getContentPane().add(textFieldPrecio);
-
-		textFieldStock = new JTextField();
-		textFieldStock.setBorder(empty);
-		textFieldStock.setBounds(182, 228, 235, 25);
-		textFieldStock.setColumns(10);
-		frmSuper.getContentPane().add(textFieldStock);
-
-		JButton buttonCleanProducto = new JButton("");
-		buttonCleanProducto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textFieldNombre.setText(null);
-				comboBoxCategorias.setSelectedIndex(0);
-				textFieldPrecio.setText(null);
-				textFieldStock.setText(null);
-			}
-		});
-		buttonCleanProducto.setIcon(new ImageIcon(Producto.class.getResource("/img/clean.png")));
-		buttonCleanProducto.setBorder(null);
-		buttonCleanProducto.setBackground(null);
-		buttonCleanProducto.setBounds(387, 33, 30, 30);
-		frmSuper.getContentPane().add(buttonCleanProducto);
 
 		JButton btnAgregar = new JButton("");
 		btnAgregar.addActionListener(new ActionListener() {
@@ -246,8 +228,7 @@ public class Supermercado {
 
 				// Verificar que los campos no estén vacíos
 				if (nombre.isEmpty() || precioText.isEmpty() || cantidadText.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Por favor, llena todos los campos!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -258,29 +239,25 @@ public class Supermercado {
 					precio = Double.parseDouble(precioText);
 					cantidad = Integer.parseInt(cantidadText);
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "El precio y la cantidad deben ser valores numéricos.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El precio y la cantidad deben ser valores numéricos!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que el nombre del producto no esté repetido
 				if (almacenDAO.productoExiste(nombre)) {
-					JOptionPane.showMessageDialog(null, "Ya existe un producto con este nombre.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Ya existe un producto con este nombre!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que la cantidad no sea negativa
 				if (cantidad < 0) {
-					JOptionPane.showMessageDialog(null, "La cantidad no puede ser un valor negativo.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El stock no puede ser un valor negativo!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que el nombre contenga al menos una letra
 				if (!nombre.matches(".*[a-zA-Z].*")) {
-					JOptionPane.showMessageDialog(null, "El nombre debe contener al menos una letra.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El nombre debe contener al menos una letra!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -294,8 +271,7 @@ public class Supermercado {
 				}
 
 				if (categoriaSeleccionada == null) {
-					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -327,8 +303,7 @@ public class Supermercado {
 					modelProductos.addRow(row);
 				}
 
-				JOptionPane.showMessageDialog(null, "¡Producto agregado exitosamente!", "Información",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "¡Producto agregado exitosamente!", "INFO", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnAgregar.setBorder(null);
@@ -344,8 +319,7 @@ public class Supermercado {
 				// Obtener el índice de la fila seleccionada en la tabla
 				int selectedRow = tableProductos.getSelectedRow();
 				if (selectedRow == -1) {
-					JOptionPane.showMessageDialog(null, "Selecciona un producto para actualizar.", "Advertencia",
-							JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Selecciona un producto para actualizar!", "CUIDADO", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 
@@ -355,8 +329,7 @@ public class Supermercado {
 				// Obtener el producto de la base de datos por su ID
 				Producto producto = almacenDAO.selectProductosById(productId);
 				if (producto == null) {
-					JOptionPane.showMessageDialog(null, "El producto seleccionado no existe.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El producto seleccionado no existe!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -368,8 +341,7 @@ public class Supermercado {
 
 				// Verificar que los campos no estén vacíos
 				if (nuevoNombre.isEmpty() || nuevoPrecioText.isEmpty() || nuevaCantidadText.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Por favor, llena todos los campos!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -380,22 +352,19 @@ public class Supermercado {
 					nuevoPrecio = Double.parseDouble(nuevoPrecioText);
 					nuevaCantidad = Integer.parseInt(nuevaCantidadText);
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "El precio y la cantidad deben ser valores numéricos.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El precio y la cantidad deben ser valores numéricos!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que la cantidad no sea negativa
 				if (nuevaCantidad < 0) {
-					JOptionPane.showMessageDialog(null, "La cantidad no puede ser un valor negativo.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El stock no puede ser un valor negativo!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Verificar que el nombre contenga al menos una letra
 				if (!nuevoNombre.matches(".*[a-zA-Z].*")) {
-					JOptionPane.showMessageDialog(null, "El nombre debe contener al menos una letra.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡El nombre debe contener al menos una letra!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -409,8 +378,7 @@ public class Supermercado {
 				}
 
 				if (categoriaSeleccionada == null) {
-					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡La categoría seleccionada no es válida!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				// Actualizar los valores del producto
@@ -427,20 +395,27 @@ public class Supermercado {
 				textFieldPrecio.setText("");
 				textFieldStock.setText("");
 
-				// Actualizar la tabla de productos mostrados
-				modelProductos.setValueAt(producto.getNombre(), selectedRow, 1); // Columna del nombre
-				modelProductos.setValueAt(producto.getPrecio(), selectedRow, 2); // Columna del precio
-				modelProductos.setValueAt(producto.getCantidadStock(), selectedRow, 3); // Columna del stock
+				modelProductos.setRowCount(0);
 
-				JOptionPane.showMessageDialog(null, "¡Producto actualizado exitosamente!", "Información",
-						JOptionPane.INFORMATION_MESSAGE);
+				List<Producto> listaProductos = almacenDAO.selectAllProductos();
+				for (Producto productoAct : listaProductos) {
+					Object[] row = new Object[5];
+					row[0] = productoAct.getId();
+					row[1] = productoAct.getNombre();
+					row[2] = productoAct.getPrecio();
+					row[3] = productoAct.getCantidadStock();
+					row[4] = productoAct.getCategoria();
+					modelProductos.addRow(row);
+				}
+
+				JOptionPane.showMessageDialog(null, "¡Producto actualizado exitosamente!", "INFO", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnActualizar.setBorder(null);
 		btnActualizar.setBackground(new Color(255, 255, 255));
 		btnActualizar.setIcon(new ImageIcon(Supermercado.class.getResource("/img/actualizar.png")));
 		btnActualizar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnActualizar.setBounds(198, 314, 90, 60);
+		btnActualizar.setBounds(196, 314, 90, 60);
 		frmSuper.getContentPane().add(btnActualizar);
 
 		JButton btnEliminar = new JButton("");
@@ -449,7 +424,7 @@ public class Supermercado {
 				// Obtener la fila seleccionada en la tabla
 				int selectedRow = tableProductos.getSelectedRow();
 				if (selectedRow == -1) {
-					JOptionPane.showMessageDialog(null, "Selecciona un producto para eliminar.", "Advertencia",
+					JOptionPane.showMessageDialog(null, "¡Selecciona un producto para eliminar!", "CUIDADO",
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
@@ -459,7 +434,7 @@ public class Supermercado {
 
 				// Confirmar la eliminación del producto
 				int option = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar el producto?",
-						"Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+						"CONFIRMAR", JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					// Eliminar el producto de la base de datos
 					almacenDAO.deleteProductos(productId);
@@ -467,7 +442,7 @@ public class Supermercado {
 					// Eliminar la fila correspondiente en la tabla
 					modelProductos.removeRow(selectedRow);
 
-					JOptionPane.showMessageDialog(null, "¡Producto eliminado exitosamente!", "Información",
+					JOptionPane.showMessageDialog(null, "¡Producto eliminado exitosamente!", "INFO",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
@@ -478,6 +453,21 @@ public class Supermercado {
 		btnEliminar.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		btnEliminar.setBounds(327, 314, 90, 60);
 		frmSuper.getContentPane().add(btnEliminar);
+
+		JButton buttonCleanProducto = new JButton("");
+		buttonCleanProducto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldNombre.setText(null);
+				comboBoxCategorias.setSelectedIndex(0);
+				textFieldPrecio.setText(null);
+				textFieldStock.setText(null);
+			}
+		});
+		buttonCleanProducto.setIcon(new ImageIcon(Producto.class.getResource("/img/clean.png")));
+		buttonCleanProducto.setBorder(null);
+		buttonCleanProducto.setBackground(null);
+		buttonCleanProducto.setBounds(387, 33, 30, 30);
+		frmSuper.getContentPane().add(buttonCleanProducto);
 
 		JButton btnMostrarTodos = new JButton("MOSTRAR TODOS");
 		btnMostrarTodos.addActionListener(new ActionListener() {
@@ -498,7 +488,8 @@ public class Supermercado {
 				}
 
 				// Mostrar mensaje de éxito
-				JOptionPane.showMessageDialog(null, "Se han mostrado todos los productos.");
+				JOptionPane.showMessageDialog(null, "¡Se han mostrado todos los productos.!", "INFO",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnMostrarTodos.setBorder(null);
@@ -508,40 +499,84 @@ public class Supermercado {
 		btnMostrarTodos.setBounds(63, 452, 355, 40);
 		frmSuper.getContentPane().add(btnMostrarTodos);
 
-		JComboBox<String> comboBoxCategoriaConcreta = new JComboBox<String>();
-		((JLabel) comboBoxCategoriaConcreta.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-		comboBoxCategoriaConcreta.setBorder(null);
-		comboBoxCategoriaConcreta.setBounds(63, 604, 355, 40);
-		frmSuper.getContentPane().add(comboBoxCategoriaConcreta);
-
-		// Obtener todas las categorías de la base de datos
-		List<Categoria> categorias2 = almacenDAO.selectAllCategorias();
-
-		// Agregar las categorías al JComboBox
-		for (Categoria categoria2 : categorias2) {
-			comboBoxCategoriaConcreta.addItem(categoria2.getNombre());
-		}
-
-		comboBoxCategoriaConcreta.addActionListener(new ActionListener() {
+		// Botón Mostrar sin Stock
+		JButton btnMostrarSinStock = new JButton("MOSTRAR SIN STOCK");
+		btnMostrarSinStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Obtener la categoría seleccionada
-				String categoriaSeleccionada = comboBoxCategoriaConcreta.getSelectedItem().toString();
+				// Actualizar la tabla de productos
+				DefaultTableModel modelProductos = (DefaultTableModel) tableProductos.getModel();
+				modelProductos.setRowCount(0);
 
-				// Filtrar la tabla por la categoría seleccionada
-				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tableProductos.getModel());
-				tableProductos.setRowSorter(sorter);
-				List<RowFilter<Object, Object>> filters = new ArrayList<RowFilter<Object, Object>>();
-				int categoriaColumnIndex = 4; // Índice de la columna de categoría en el modelo de tabla
-				filters.add(RowFilter.regexFilter(categoriaSeleccionada, categoriaColumnIndex));
-				sorter.setRowFilter(RowFilter.andFilter(filters));
+				List<Producto> listaProductosSinStock = almacenDAO.selectProductosSinStock();
+				for (Producto producto : listaProductosSinStock) {
+					Object[] row = new Object[5];
+					row[0] = producto.getId();
+					row[1] = producto.getNombre();
+					row[2] = producto.getPrecio();
+					row[3] = producto.getCantidadStock();
+					row[4] = producto.getCategoria();
+					modelProductos.addRow(row);
+				}
+
+				// Mostrar mensaje de éxito
+				JOptionPane.showMessageDialog(null, "¡Se han mostrado los productos sin stock!", "INFO",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
+		btnMostrarSinStock.setBorder(null);
+		btnMostrarSinStock.setForeground(new Color(238, 68, 93));
+		btnMostrarSinStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		btnMostrarSinStock.setBackground(Color.WHITE);
+		btnMostrarSinStock.setBounds(63, 516, 354, 40);
+		frmSuper.getContentPane().add(btnMostrarSinStock);
 
 		JLabel lblMostrarCategoraConcreta = new JLabel("Mostrar Categoría:");
 		lblMostrarCategoraConcreta.setForeground(new Color(238, 68, 93));
 		lblMostrarCategoraConcreta.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
 		lblMostrarCategoraConcreta.setBounds(63, 572, 355, 25);
 		frmSuper.getContentPane().add(lblMostrarCategoraConcreta);
+		
+		JComboBox<String> comboBoxCategoriaConcreta = new JComboBox<String>();
+		comboBoxCategoriaConcreta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Obtener la categoría seleccionada
+				String categoriaSeleccionada = comboBoxCategoriaConcreta.getSelectedItem().toString();
+				
+				// Filtrar la tabla por la categoría seleccionada
+				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tableProductos.getModel());
+				tableProductos.setRowSorter(sorter);
+				List<RowFilter<Object, Object>> filters = new ArrayList<RowFilter<Object, Object>>();
+				int categoriaColumnIndex = 4; // Índice de la columna de categoría en el modelo de tabla
+				
+				// Si se selecciona "Todas las categorías", no se aplica ningún filtro
+				if (!categoriaSeleccionada.equals("Todas las categorías")) {
+					filters.add(RowFilter.regexFilter(categoriaSeleccionada, categoriaColumnIndex));
+				}
+				sorter.setRowFilter(RowFilter.andFilter(filters));
+			}
+		});
+		((JLabel) comboBoxCategoriaConcreta.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		comboBoxCategoriaConcreta.setBorder(null);
+		comboBoxCategoriaConcreta.setBounds(63, 604, 355, 40);
+		frmSuper.getContentPane().add(comboBoxCategoriaConcreta);
+
+		// Obtener todas las categorías de la base de datos
+		List<Categoria> listaCategorias = almacenDAO.selectAllCategorias();
+
+		// Agregar la opción "Todas las categorías" al principio del JComboBox
+		comboBoxCategoriaConcreta.addItem("Todas las categorías");
+
+		// Agregar las categorías al JComboBox
+		for (Categoria categoria : listaCategorias) {
+			comboBoxCategoriaConcreta.addItem(categoria.getNombre());
+		}
+
+		// Seleccionar "Todas las categorías" por defecto
+		comboBoxCategoriaConcreta.setSelectedIndex(0);
+
+
+
+		
 
 		JLabel lblFechaFin = new JLabel("Fecha Fin:");
 		lblFechaFin.setForeground(new Color(238, 68, 93));
@@ -555,23 +590,17 @@ public class Supermercado {
 		lblFechaInicio.setBounds(1037, 180, 105, 25);
 		frmSuper.getContentPane().add(lblFechaInicio);
 
-		JLabel lblNuevoProducto = new JLabel("Gestión de Productos");
-		lblNuevoProducto.setForeground(new Color(238, 68, 93));
-		lblNuevoProducto.setFont(new Font("Corbel", Font.BOLD, 30));
-		lblNuevoProducto.setBounds(63, 33, 364, 40);
-		frmSuper.getContentPane().add(lblNuevoProducto);
-
 		JLabel lblGestinDeOfertas = new JLabel("Gestión de Ofertas");
 		lblGestinDeOfertas.setForeground(new Color(238, 68, 93));
 		lblGestinDeOfertas.setFont(new Font("Corbel", Font.BOLD, 30));
 		lblGestinDeOfertas.setBounds(1037, 33, 270, 40);
 		frmSuper.getContentPane().add(lblGestinDeOfertas);
 
-		JLabel lblFechaInicio_1 = new JLabel("Producto:");
-		lblFechaInicio_1.setForeground(new Color(238, 68, 93));
-		lblFechaInicio_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblFechaInicio_1.setBounds(1037, 84, 105, 25);
-		frmSuper.getContentPane().add(lblFechaInicio_1);
+		JLabel lblProducto = new JLabel("Producto:");
+		lblProducto.setForeground(new Color(238, 68, 93));
+		lblProducto.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblProducto.setBounds(1037, 84, 105, 25);
+		frmSuper.getContentPane().add(lblProducto);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(Supermercado.class.getResource("/img/logosuper.png")));
@@ -924,41 +953,11 @@ public class Supermercado {
 		btnBorrar.setBounds(1301, 314, 90, 60);
 		frmSuper.getContentPane().add(btnBorrar);
 
-		JLabel lblFechaInicio_1_1 = new JLabel("Descuento:");
-		lblFechaInicio_1_1.setForeground(new Color(238, 68, 93));
-		lblFechaInicio_1_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblFechaInicio_1_1.setBounds(1037, 129, 105, 26);
-		frmSuper.getContentPane().add(lblFechaInicio_1_1);
-
-		// Botón Mostrar sin Stock
-		JButton btnMostrarSinStock = new JButton("MOSTRAR SIN STOCK");
-		btnMostrarSinStock.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Actualizar la tabla de productos
-				DefaultTableModel modelProductos = (DefaultTableModel) tableProductos.getModel();
-				modelProductos.setRowCount(0);
-
-				List<Producto> listaProductosSinStock = almacenDAO.selectProductosSinStock();
-				for (Producto producto : listaProductosSinStock) {
-					Object[] row = new Object[5];
-					row[0] = producto.getId();
-					row[1] = producto.getNombre();
-					row[2] = producto.getPrecio();
-					row[3] = producto.getCantidadStock();
-					row[4] = producto.getCategoria();
-					modelProductos.addRow(row);
-				}
-
-				// Mostrar mensaje de éxito
-				JOptionPane.showMessageDialog(null, "Se han mostrado los productos sin stock.");
-			}
-		});
-		btnMostrarSinStock.setBorder(null);
-		btnMostrarSinStock.setForeground(new Color(238, 68, 93));
-		btnMostrarSinStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		btnMostrarSinStock.setBackground(Color.WHITE);
-		btnMostrarSinStock.setBounds(63, 516, 354, 40);
-		frmSuper.getContentPane().add(btnMostrarSinStock);
+		JLabel lblDescuento = new JLabel("Descuento:");
+		lblDescuento.setForeground(new Color(238, 68, 93));
+		lblDescuento.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		lblDescuento.setBounds(1037, 129, 105, 26);
+		frmSuper.getContentPane().add(lblDescuento);
 
 		JLabel lblOfertas = new JLabel("Ofertas");
 		lblOfertas.setBounds(480, 401, 140, 40);
