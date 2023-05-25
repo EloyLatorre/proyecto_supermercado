@@ -1,24 +1,17 @@
 package com.hibernate.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "Productos")
-public class Productos {
+@Table(name = "Producto")
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,22 +32,22 @@ public class Productos {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    private Categorias Categorias;
+    private Categoria categoria;
 
     @ManyToOne
     @JoinColumn(name = "oferta_id")
-    private Ofertas oferta;
+    private Oferta oferta;
 
-    public Productos(String codigo, String nombre, double precio, int cantidad, Categorias Categorias, Ofertas oferta) {
+    public Producto(String codigo, String nombre, double precio, int cantidad, Categoria categoria, Oferta oferta) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
         this.cantidad = cantidad;
-        this.Categorias = Categorias;
+        this.categoria = categoria;
         this.oferta = oferta;
     }
 
-    public Productos() {
+    public Producto() {
     }
 
     public int getId() {
@@ -97,19 +90,19 @@ public class Productos {
         this.cantidad = cantidadStock;
     }
 
-    public Categorias getCategorias() {
-        return Categorias;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setCategorias(Categorias Categorias) {
-        this.Categorias = Categorias;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
-    public Ofertas getOferta() {
+    public Oferta getOferta() {
         return oferta;
     }
 
-    public void setOferta(Ofertas oferta) {
+    public void setOferta(Oferta oferta) {
         this.oferta = oferta;
     }
 

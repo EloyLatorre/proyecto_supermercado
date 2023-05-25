@@ -20,7 +20,7 @@ public class HibernateUtil {
 
 				Properties settings = new Properties();
 				settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-				settings.put(Environment.URL, "jdbc:mysql://127.0.0.1:3306/almacen?useSSL=false");
+				settings.put(Environment.URL, "jdbc:mysql://127.0.0.1:3307/almacen?useSSL=false");
 				settings.put(Environment.USER, "alumno");
 				settings.put(Environment.PASS, "alumno");
 				settings.put(Environment.SHOW_SQL, "true");
@@ -30,9 +30,9 @@ public class HibernateUtil {
 				configuration.setProperties(settings);
 
 
-				configuration.addAnnotatedClass(Productos.class);
-				configuration.addAnnotatedClass(Categorias.class);
-				configuration.addAnnotatedClass(Ofertas.class);
+				configuration.addAnnotatedClass(Producto.class);
+				configuration.addAnnotatedClass(Categoria.class);
+				configuration.addAnnotatedClass(Oferta.class);
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
 				sessionFactory = configuration.buildSessionFactory(serviceRegistry);

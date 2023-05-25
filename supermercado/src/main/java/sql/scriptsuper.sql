@@ -4,32 +4,32 @@ CREATE DATABASE almacen;
 -- Usar la base de datos
 USE almacen;
 
--- Creación de la tabla de Categorías
-CREATE TABLE Categorias (
+-- Creación de la tabla de Categoría
+CREATE TABLE Categoria (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL
 );
 
 -- Insertar categorías
-INSERT INTO Categorias (nombre) VALUES
+INSERT INTO Categoria (nombre) VALUES
   ('Bebidas'),
   ('Carne'),
   ('Pescado'),
   ('Limpieza');
 
--- Creación de la tabla de Productos
-CREATE TABLE Productos (
+-- Creación de la tabla de Producto
+CREATE TABLE Producto (
   id INT AUTO_INCREMENT PRIMARY KEY,
   codigo VARCHAR(20) NOT NULL,
   nombre VARCHAR(100) NOT NULL,
   precio DECIMAL(10,2) NOT NULL,
   cantidad INT NOT NULL,
   categoria_id INT,
-  FOREIGN KEY (categoria_id) REFERENCES Categorias(id)
+  FOREIGN KEY (categoria_id) REFERENCES Categoria(id)
 );
 
 -- Insertar productos
-INSERT INTO Productos (codigo, nombre, precio, cantidad, categoria_id) VALUES
+INSERT INTO Producto (codigo, nombre, precio, cantidad, categoria_id) VALUES
   ('001', 'Coca-Cola', 1.5, 50, 1), -- Bebidas
   ('002', 'Agua mineral', 0.8, 100, 1), -- Bebidas
   ('003', 'Pollo', 5.99, 20, 2), -- Carne
@@ -51,12 +51,12 @@ INSERT INTO Productos (codigo, nombre, precio, cantidad, categoria_id) VALUES
   ('019', 'Ternera picada', 7.99, 15, 2), -- Carne
   ('020', 'Lomo de cerdo', 8.99, 12, 2); -- Carne
 
--- Creación de la tabla de Ofertas
-CREATE TABLE Ofertas (
+-- Creación de la tabla de Oferta
+CREATE TABLE Oferta (
   id INT AUTO_INCREMENT PRIMARY KEY,
   producto_id INT,
   precio_oferta DECIMAL(10,2) NOT NULL,
   fecha_inicio DATE NOT NULL,
   fecha_fin DATE NOT NULL,
-  FOREIGN KEY (producto_id) REFERENCES Productos(id)
+  FOREIGN KEY (producto_id) REFERENCES Producto(id)
 );

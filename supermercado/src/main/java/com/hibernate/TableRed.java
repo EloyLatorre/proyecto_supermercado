@@ -12,19 +12,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class TableOrange extends JTable {
+public class TableRed extends JTable {
 
-	private TableOrangeHeader header;
-	private TableOrangeCell cell;
+	private TableRedHeader header;
+	private TableRedCell cell;
 
-	public TableOrange() {
-		header = new TableOrangeHeader();
-		cell = new TableOrangeCell();
+	public TableRed() {
+		header = new TableRedHeader();
+		cell = new TableRedCell();
 		getTableHeader().setDefaultRenderer(header);
 		getTableHeader().setPreferredSize(new Dimension(0, 35));
 		setDefaultRenderer(Object.class, cell);
 		setRowHeight(30);
-		setGridColor(new Color(250, 162, 75));
+		setGridColor(new Color(238, 68, 93));
 		getTableHeader().setReorderingAllowed(false);
 		getTableHeader().setResizingAllowed(false);
 	}
@@ -52,7 +52,7 @@ public class TableOrange extends JTable {
 		scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, panel);
 	}
 
-	private class TableOrangeHeader extends DefaultTableCellRenderer {
+	private class TableRedHeader extends DefaultTableCellRenderer {
 
 		private Map<Integer, Integer> alignment = new HashMap<>();
 
@@ -64,8 +64,8 @@ public class TableOrange extends JTable {
 		public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i,
 				int i1) {
 			Component com = super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
-			com.setBackground(new Color(0, 30, 61));
-			com.setForeground(new Color(200, 200, 200));
+			com.setBackground(new Color(238, 68, 93));
+			com.setForeground(new Color(255, 255, 255));
 			com.setFont(new Font("Kalimati", Font.BOLD, 12));
 			if (alignment.containsKey(i1)) {
 				setHorizontalAlignment(alignment.get(i1));
@@ -76,7 +76,7 @@ public class TableOrange extends JTable {
 		}
 	}
 
-	private class TableOrangeCell extends DefaultTableCellRenderer {
+	private class TableRedCell extends DefaultTableCellRenderer {
 
 		private Map<Integer, Integer> alignment = new HashMap<>();
 
@@ -90,15 +90,15 @@ public class TableOrange extends JTable {
 			Component com = super.getTableCellRendererComponent(jtable, o, bln, bln1, row, column);
 			if (isCellSelected(row, column)) {
 				if (row % 2 == 0) {
-					com.setBackground(new Color(255, 183, 112));
+					com.setBackground(new Color(255, 149, 143));
 				} else {
-					com.setBackground(new Color(252, 176, 101));
+					com.setBackground(new Color(250, 165, 160));
 				}
 			} else {
 				if (row % 2 == 0) {
-					com.setBackground(new Color(250, 153, 56));
+					com.setBackground(new Color(242, 242, 242));
 				} else {
-					com.setBackground(new Color(250, 162, 75));
+					com.setBackground(new Color(230, 230, 230));
 				}
 			}
 			setFont(new Font("Kalimati", Font.PLAIN, 11));

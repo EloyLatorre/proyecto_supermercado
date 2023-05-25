@@ -3,8 +3,8 @@ package com.hibernate.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Categorias")
-public class Categorias {
+@Table(name = "Categoria")
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,11 +14,11 @@ public class Categorias {
     @Column(name = "nombre")
     private String nombre;
 
-    public Categorias(String nombre) {
+    public Categoria(String nombre) {
         this.nombre = nombre;
     }
 
-    public Categorias() {
+    public Categoria() {
     }
 
     public int getId() {

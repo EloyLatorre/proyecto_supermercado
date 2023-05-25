@@ -5,8 +5,8 @@ import java.util.Date;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Ofertas")
-public class Ofertas {
+@Table(name = "Oferta")
+public class Oferta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +24,15 @@ public class Ofertas {
 
     @ManyToOne
     @JoinColumn(name = "producto_id")
-    private Productos producto;
+    private Producto producto;
 
-    public Ofertas(Date fechaInicio, Date fechaFin, double precioOferta) {
+    public Oferta(Date fechaInicio, Date fechaFin, double precioOferta) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.precioOferta = precioOferta;
     }
 
-    public Ofertas() {
+    public Oferta() {
     }
 
     public int getId() {
@@ -67,11 +67,11 @@ public class Ofertas {
         this.precioOferta = precioOferta;
     }
 
-    public Productos getProducto() {
+    public Producto getProducto() {
         return producto;
     }
 
-    public void setProducto(Productos producto) {
+    public void setProducto(Producto producto) {
         this.producto = producto;
     }
 }
