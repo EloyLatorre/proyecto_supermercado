@@ -361,4 +361,35 @@ public class AlmacenDAO {
 		return existe;
 	}
 
+	/**
+	 * Selecciona una oferta de la base de datos por el ID del producto
+	 *
+	 * @param productId - identificador del producto
+	 * @return Oferta - objeto oferta asociado al producto, o null si no se encontró
+	 */
+	public Oferta selectOfertaByProductoId(int productId) {
+	    Transaction transaction = null;
+	    Oferta oferta = null;
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        transaction = session.beginTransaction();
+
+	        // Crea una consulta HQL
+	        String hql = "FROM Oferta WHERE producto.id = :productId";
+	        Query<Oferta> query = session.createQuery(hql, Oferta.class);
+	        query.setParameter("productId", productId);
+
+	        // Obtiene el primer resultado, si existe
+	        oferta = query.setMaxResults(1).uniqueResult();
+
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return oferta;
+	}
+
+
 }

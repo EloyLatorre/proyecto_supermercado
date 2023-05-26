@@ -6,39 +6,55 @@ import jakarta.persistence.*;
 @Table(name = "Categoria")
 public class Categoria {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+	/**
+	 * Creación de atributos y relación de la base de datos con los mismos
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
 
-    @Column(name = "nombre")
-    private String nombre;
+	@Column(name = "nombre")
+	private String nombre;
 
-    public Categoria(String nombre) {
-        this.nombre = nombre;
-    }
+	/**
+	 * Constructores de la clase
+	 * 
+	 * @param nombre - nombre de la categoría
+	 */
+	public Categoria(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public Categoria() {
-    }
+	public Categoria() {
+	}
 
-    public int getId() {
-        return id;
-    }
+	/**
+	 * Getters y setters para los atributos de la clase
+	 * 
+	 * @return
+	 */
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    @Override
-    public String toString() {
-        return nombre;
-    }
+	/**
+	 * Sobrescritura del método toString para mostrar el nombre en un JComboBox
+	 */
+	@Override
+	public String toString() {
+		return nombre;
+	}
 }
