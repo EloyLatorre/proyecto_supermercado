@@ -83,7 +83,7 @@ public class Supermercado {
 		frmSuper.setResizable(false);
 		frmSuper.getContentPane().setBackground(Color.DARK_GRAY);
 		frmSuper.setBackground(new Color(0, 0, 0));
-		frmSuper.setTitle("Supermercado");
+		frmSuper.setTitle("HacenDAO");
 		frmSuper.setBounds(100, 100, 1460, 720);
 		frmSuper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSuper.getContentPane().setLayout(null);
