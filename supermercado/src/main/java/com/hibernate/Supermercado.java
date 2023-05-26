@@ -11,6 +11,8 @@ import java.awt.Toolkit;
 import java.util.List;
 import java.util.Locale;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -32,6 +34,7 @@ import com.hibernate.dao.AlmacenDAO;
 import com.hibernate.model.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
@@ -620,11 +623,30 @@ public class Supermercado {
 		lblLogo.setBounds(1241, 472, 150, 150);
 		frmSuper.getContentPane().add(lblLogo);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Supermercado.class.getResource("/img/qr.png")));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(1036, 452, 195, 192);
-		frmSuper.getContentPane().add(lblNewLabel);
+		JLabel lblQR = new JLabel("");
+		lblQR.setIcon(new ImageIcon(Supermercado.class.getResource("/img/qr.png")));
+		lblQR.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQR.setBounds(1037, 452, 153, 156);
+		frmSuper.getContentPane().add(lblQR);
+		
+		JButton btnWeb = new JButton("WEB");
+		btnWeb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Reemplaza la URL con la dirección del sitio web que deseas abrir
+					String url = "https://candid-selkie-08f999.netlify.app/";
+					Desktop.getDesktop().browse(new URI(url));
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		btnWeb.setForeground(new Color(238, 68, 93));
+		btnWeb.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+		btnWeb.setBorder(null);
+		btnWeb.setBackground(new Color(255, 255, 255));
+		btnWeb.setBounds(1037, 614, 150, 30);
+		frmSuper.getContentPane().add(btnWeb);
 
 		JLabel lblGestionProducto = new JLabel("Gestión de Productos");
 		lblGestionProducto.setForeground(new Color(238, 68, 93));
