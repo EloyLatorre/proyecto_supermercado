@@ -1,3 +1,8 @@
+/**
+ * @author Jaime Roselló Gómez & Eloy Latorre Briones
+ * @version Final release
+ */
+
 package com.hibernate;
 
 import java.awt.EventQueue;
@@ -235,7 +240,12 @@ public class Supermercado {
 					}
 				}
 				if (productoSeleccionado != null) {
-					comboBoxProducto.setSelectedItem(productoSeleccionado);
+				    if (((DefaultComboBoxModel<Producto>) comboBoxProducto.getModel()).getIndexOf(productoSeleccionado) != -1) {
+				        comboBoxProducto.setSelectedItem(productoSeleccionado);
+				    } else {
+				        JOptionPane.showMessageDialog(null, "¡El producto seleccionado no existe en el combobox!", "ERROR",
+				            JOptionPane.ERROR_MESSAGE);
+				    }
 				}
 
 				// Convertir y asignar el valor del descuento
